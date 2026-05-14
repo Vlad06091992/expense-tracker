@@ -1,0 +1,27 @@
+{
+  "name": "expense-tracker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Expense tracker monorepo (Next.js + NestJS + Prisma)",
+  "scripts": {
+    "build": "nx run-many -t build",
+    "dev": "nx run-many -t dev --parallel",
+    "lint": "nx run-many -t lint",
+    "test": "nx run-many -t test",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md}\"",
+    "db:generate": "pnpm --filter @repo/database prisma:generate",
+    "db:migrate": "pnpm --filter @repo/database prisma:migrate",
+    "db:studio": "pnpm --filter @repo/database prisma:studio"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "nx": "^20.3.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.11.0"
+  }
+}
