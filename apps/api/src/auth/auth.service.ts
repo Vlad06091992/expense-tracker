@@ -1,9 +1,12 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import type { AuthResponse, JwtPayload } from '@repo/shared-types';
 import * as bcrypt from 'bcryptjs';
 
-import { UsersService } from '@/users/users.service';
+import { CreateUserCommand } from '@/users/commands/create-user.command';
+import { FindUserByEmailQuery } from '@/users/queries/find-user-by-email.query';
+import { User } from '@repo/database/src/index';
 
 import type { LoginDto } from './dto/login.dto';
 import type { RegisterDto } from './dto/register.dto';
@@ -11,22 +14,29 @@ import type { RegisterDto } from './dto/register.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersService: UsersService,
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
     private readonly jwtService: JwtService,
   ) {}
 
   async register(dto: RegisterDto): Promise<AuthResponse> {
+    const existing = await this.queryBus.execute<FindUserByEmailQuery, User | null>(
+      new FindUserByEmailQuery(dto.email),
+    );
+    if (existing) {
+      throw new ConflictException('Email already in use');
+    }
     const passwordHash = await bcrypt.hash(dto.password, 10);
-    const user = await this.usersService.create({
-      email: dto.email,
-      passwordHash,
-      name: dto.name,
-    });
+    const user = await this.commandBus.execute<CreateUserCommand, User>(
+      new CreateUserCommand(dto.email, passwordHash, dto.name),
+    );
     return this.buildResponse(user.id, user.email, this.toUserDto(user));
   }
 
   async login(dto: LoginDto): Promise<AuthResponse> {
-    const user = await this.usersService.findByEmail(dto.email);
+    const user = await this.queryBus.execute<FindUserByEmailQuery, User | null>(
+      new FindUserByEmailQuery(dto.email),
+    );
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }

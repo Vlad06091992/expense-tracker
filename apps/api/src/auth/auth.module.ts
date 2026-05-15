@@ -1,24 +1,23 @@
+import { CqrsModule } from '@nestjs/cqrs';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtSignOptions } from '@nestjs/jwt/index';
 import { PassportModule } from '@nestjs/passport';
-
-import { UsersModule } from '../users/users.module';
+import { JwtModuleOptions } from '@nestjs/jwt/dist/interfaces/jwt-module-options.interface';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { JwtModuleOptions } from '@nestjs/jwt/dist/interfaces/jwt-module-options.interface';
 
 @Module({
   imports: [
     PassportModule,
-    UsersModule,
+    CqrsModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService):Promise<JwtModuleOptions> | JwtModuleOptions => ({
+      useFactory: (config: ConfigService): Promise<JwtModuleOptions> | JwtModuleOptions => ({
         secret: config.get<string>('JWT_SECRET'),
         signOptions: {
           expiresIn: config.get<JwtSignOptions['expiresIn']>('JWT_EXPIRES_IN', '7d'),
