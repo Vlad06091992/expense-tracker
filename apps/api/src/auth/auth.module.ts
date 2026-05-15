@@ -6,8 +6,9 @@ import { JwtSignOptions } from '@nestjs/jwt/index';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModuleOptions } from '@nestjs/jwt/dist/interfaces/jwt-module-options.interface';
 
+import { RegisterUserHandler } from './commands/register-user.handler';
+import { LoginUserHandler } from './commands/login-user.handler';
 import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
@@ -26,7 +27,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService],
+  providers: [RegisterUserHandler, LoginUserHandler, JwtStrategy],
 })
 export class AuthModule {}

@@ -9,33 +9,41 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
-import { ExpensesService } from './expenses.service';
+import { CreateExpenseCommand } from './commands/create-expense.command';
+import { UpdateExpenseCommand } from './commands/update-expense.command';
+import { DeleteExpenseCommand } from './commands/delete-expense.command';
+import { ListExpensesQuery } from './queries/list-expenses.query';
+import { GetExpenseQuery } from './queries/get-expense.query';
 
 type AuthRequest = { user: { id: string } };
 
 @UseGuards(JwtAuthGuard)
 @Controller('expenses')
 export class ExpensesController {
-  constructor(private readonly expensesService: ExpensesService) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
 
   @Get()
   findAll(@Request() req: AuthRequest) {
-    return this.expensesService.findAll(req.user.id);
+    return this.queryBus.execute(new ListExpensesQuery(req.user.id));
   }
 
   @Get(':id')
   findOne(@Request() req: AuthRequest, @Param('id') id: string) {
-    return this.expensesService.findOne(req.user.id, id);
+    return this.queryBus.execute(new GetExpenseQuery(req.user.id, id));
   }
 
   @Post()
   create(@Request() req: AuthRequest, @Body() dto: CreateExpenseDto) {
-    return this.expensesService.create(req.user.id, dto);
+    return this.commandBus.execute(new CreateExpenseCommand(req.user.id, dto));
   }
 
   @Patch(':id')
@@ -44,11 +52,11 @@ export class ExpensesController {
     @Param('id') id: string,
     @Body() dto: UpdateExpenseDto,
   ) {
-    return this.expensesService.update(req.user.id, id, dto);
+    return this.commandBus.execute(new UpdateExpenseCommand(req.user.id, id, dto));
   }
 
   @Delete(':id')
   remove(@Request() req: AuthRequest, @Param('id') id: string) {
-    return this.expensesService.remove(req.user.id, id);
+    return this.commandBus.execute(new DeleteExpenseCommand(req.user.id, id));
   }
 }
