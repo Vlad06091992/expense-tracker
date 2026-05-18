@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { signUp } from '@/lib/auth';
@@ -19,7 +20,7 @@ export default function SignUpPage() {
 
   const form = useForm<SignUpValues>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: { name: '', email: '', password: '' },
+    defaultValues: { name: '', email: '', password: '', terms: undefined },
   });
 
   async function onSubmit(values: SignUpValues) {
@@ -77,6 +78,33 @@ export default function SignUpPage() {
                     <Input type="password" placeholder="••••••" {...field} />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="terms"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value === true}
+                      onCheckedChange={(checked) => field.onChange(checked === true ? true : undefined)}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-normal">
+                      Согласен с{' '}
+                      <Link href="/terms" className="underline underline-offset-4 hover:text-primary">
+                        пользовательским соглашением
+                      </Link>{' '}
+                      и{' '}
+                      <Link href="/privacy" className="underline underline-offset-4 hover:text-primary">
+                        политикой обработки данных
+                      </Link>
+                    </FormLabel>
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
