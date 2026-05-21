@@ -100,3 +100,32 @@ Three models: `User` → `Category` (1-to-many), `User` → `Expense` (1-to-many
 - After editing `schema.prisma`, always run `pnpm db:generate` before starting the API.
 - Backend DTOs use `class-validator` decorators; use `PartialType` from `@nestjs/mapped-types` for update DTOs.
 - `UpdateExpenseDto` extends `PartialType(CreateExpenseDto)` — this pattern should be followed for new resources.
+
+## Commit conventions
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer]
+```
+
+**Types:** `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `build`, `ci`, `chore`, `revert`
+
+**Scopes** (optional, match the app/package): `api`, `web`, `database`, `shared-types`
+
+**Rules:**
+- Subject line: imperative mood, lowercase, no period, max 72 chars
+- Breaking changes: append `!` after scope or add `BREAKING CHANGE:` in footer
+- Use body to explain *why*, not *what*
+
+**Examples:**
+```
+feat(api): add transactions module with CQRS
+fix(web): prevent token loss on page refresh
+refactor(database): rename Expense model to Transaction
+feat(api)!: remove legacy /expenses endpoints
+```

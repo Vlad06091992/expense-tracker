@@ -1,2 +1,2 @@
-export { PrismaClient, Prisma } from '@prisma/client';
-export type { User, Category } from '@prisma/client';
+export { PrismaClient, Prisma, TransactionType } from '@prisma/client';
+export type { User, Category, Transaction } from '@prisma/client';
