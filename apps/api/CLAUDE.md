@@ -94,3 +94,7 @@ pnpm db:studio      # открыть Prisma Studio
 - Для update-DTO использовать `PartialType` из `@nestjs/mapped-types`.
 - `UpdateTransactionDto` расширяет `PartialType(CreateTransactionDto)` — следовать этому паттерну для новых ресурсов.
 - Ошибки: `ConflictException` (дублирующий email/имя категории), `NotFoundException` (ресурс не найден).
+
+## Документация
+После изменения методов — обновляй JSDoc.
+Для DTO и контроллеров — добавляй/обновляй Swagger декораторы.
