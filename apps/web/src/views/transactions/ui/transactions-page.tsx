@@ -8,7 +8,18 @@ import type { TransactionDto } from '@repo/shared-types';
 import { useCategories } from '@/entities/category';
 import { formatAmount, formatDate, useTransactions } from '@/entities/transaction';
 import { TransactionFormDialog, useDeleteTransaction } from '@/features/transaction-form';
+import { PAGE_SIZE } from '@/shared/config/pagination';
 import { cn } from '@/shared/lib/utils';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/shared/ui/alert-dialog';
 import { Button } from '@/shared/ui/button';
 import {
   DropdownMenu,
@@ -26,12 +37,11 @@ import {
   TableRow,
 } from '@/shared/ui/table';
 
-const PAGE_SIZE = 10;
-
 export function TransactionsPage() {
   const [page, setPage] = useState(1);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<TransactionDto | undefined>(undefined);
+  const [deleteTarget, setDeleteTarget] = useState<TransactionDto | undefined>(undefined);
 
   const { data, isLoading, isError, isPlaceholderData } = useTransactions({
     page,
@@ -56,13 +66,16 @@ export function TransactionsPage() {
     setFormOpen(true);
   }
 
-  async function handleDelete(transaction: TransactionDto) {
-    if (!window.confirm('Удалить транзакцию?')) return;
+  async function confirmDelete() {
+    if (!deleteTarget) return;
     try {
-      await deleteMutation.mutateAsync(transaction.id);
+      await deleteMutation.mutateAsync(deleteTarget.id);
+      if (page > 1 && data?.items.length === 1) setPage((p) => p - 1);
       toast.success('Транзакция удалена');
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Не удалось удалить');
+    } finally {
+      setDeleteTarget(undefined);
     }
   }
 
@@ -137,7 +150,7 @@ export function TransactionsPage() {
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-destructive"
-                          onSelect={() => handleDelete(transaction)}
+                          onSelect={() => setDeleteTarget(transaction)}
                         >
                           Удалить
                         </DropdownMenuItem>
@@ -182,6 +195,26 @@ export function TransactionsPage() {
         onOpenChange={setFormOpen}
         transaction={editing}
       />
+
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(undefined)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Удалить транзакцию?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {deleteTarget?.description || 'Без описания'} будет удалена без возможности восстановления.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={confirmDelete}
+            >
+              Удалить
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

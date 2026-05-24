@@ -4,11 +4,10 @@ import { useState } from 'react';
 
 import { useCategories } from '@/entities/category';
 import { TransactionRow, useTransactions } from '@/entities/transaction';
+import { PAGE_SIZE } from '@/shared/config/pagination';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Skeleton } from '@/shared/ui/skeleton';
-
-const PAGE_SIZE = 10;
 
 export function RecentTransactions() {
   const [page, setPage] = useState(1);
