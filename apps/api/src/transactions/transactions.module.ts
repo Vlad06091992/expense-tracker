@@ -15,6 +15,12 @@ const CommandHandlers = [
 ];
 const QueryHandlers = [ListTransactionsHandler, GetTransactionHandler];
 
+/**
+ * Модуль управления транзакциями.
+ *
+ * Регистрирует CQRS-обработчики команд и запросов, репозиторий и контроллер.
+ * Полагается на глобально зарегистрированный `PrismaModule` и `JwtAuthGuard` из `AuthModule`.
+ */
 @Module({
   imports: [CqrsModule],
   controllers: [TransactionsController],
