@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project overview
+
+Expense Tracker — веб-приложение для личного учёта расходов. Пользователь регистрируется, создаёт категории и записывает траты; цель — дать простой инструмент для контроля личного бюджета без лишней сложности.
+
+Монорепозиторий содержит два приложения:
+- **`apps/web`** — Next.js-фронтенд: авторизация, дашборд с расходами, управление категориями.
+- **`apps/api`** — NestJS REST API: JWT-аутентификация, CRUD расходов и категорий, хранение в PostgreSQL.
+
 ## Stack
 
 - **Monorepo**: Nx 20 + pnpm workspaces
@@ -149,6 +157,8 @@ EOF
 - Base branch: `master` (он же `main` на remote/origin)
 - После merge ветку удалять
 
+<important if="если нужно создать коммит">
+
 ## Commit conventions
 
 Follow [Conventional Commits](https://www.conventionalcommits.org/):
@@ -177,3 +187,4 @@ fix(web): prevent token loss on page refresh
 refactor(database): rename Expense model to Transaction
 feat(api)!: remove legacy /expenses endpoints
 ```
+</important>
