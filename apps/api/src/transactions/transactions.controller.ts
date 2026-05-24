@@ -42,7 +42,11 @@ export class TransactionsController {
     @Query() query: ListTransactionsQueryDto,
   ) {
     return this.queryBus.execute(
-      new ListTransactionsQuery(req.user.id, { month: query.month, year: query.year }),
+      new ListTransactionsQuery(
+        req.user.id,
+        { month: query.month, year: query.year },
+        { page: query.page ?? 1, limit: query.limit ?? 10 },
+      ),
     );
   }
 

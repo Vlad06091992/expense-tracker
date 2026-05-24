@@ -101,6 +101,54 @@ Three models: `User` → `Category` (1-to-many), `User` → `Expense` (1-to-many
 - Backend DTOs use `class-validator` decorators; use `PartialType` from `@nestjs/mapped-types` for update DTOs.
 - `UpdateExpenseDto` extends `PartialType(CreateExpenseDto)` — this pattern should be followed for new resources.
 
+## Branch workflow (GitHub Flow)
+
+- `main` — всегда стабильная и деплоируемая ветка; прямые пуши запрещены
+- Любая новая работа начинается с ветки от `main`
+- Именование веток: `<type>/<short-description>` — тип совпадает с Conventional Commits (`feat`, `fix`, `refactor`, `chore`, …)
+- Ветка живёт ровно столько, сколько длится задача — слияние через PR, затем удаление
+- PR требует как минимум одного ревью перед merge в `main`
+- Merge-стратегия: squash-merge для фич, merge-commit для релизов
+
+**Примеры имён веток:**
+```
+feat/main-screen
+fix/token-refresh
+refactor/auth-module
+chore/update-dependencies
+```
+
+## Pull Request workflow
+
+PR создаётся через `gh pr create` после пуша ветки:
+
+```bash
+gh pr create \
+  --base master \
+  --title "feat(web,api): ..." \
+  --body "$(cat <<'EOF'
+## Summary
+- ...
+
+## API changes
+- `GET /...` — ...
+
+## Test plan
+- [ ] ...
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+EOF
+)"
+```
+
+**Правила оформления PR:**
+- Title — по Conventional Commits (тип + scope + краткое описание, ≤72 символа)
+- Summary — маркированный список: что реализовано, зачем
+- API changes — перечисли новые/изменённые endpoints с методом и путём
+- Test plan — чеклист сценариев, которые нужно проверить вручную
+- Base branch: `master` (он же `main` на remote/origin)
+- После merge ветку удалять
+
 ## Commit conventions
 
 Follow [Conventional Commits](https://www.conventionalcommits.org/):
