@@ -9,6 +9,11 @@ export interface PeriodFilter {
   year?: number;
 }
 
+export interface PaginationParams {
+  skip: number;
+  take: number;
+}
+
 @Injectable()
 export class TransactionsRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -27,11 +32,20 @@ export class TransactionsRepository {
     return undefined;
   }
 
-  findAllByUser(userId: string, period: PeriodFilter) {
+  findAllByUser(userId: string, period: PeriodFilter, pagination: PaginationParams) {
     const date = this.buildDateFilter(period);
     return this.prisma.transaction.findMany({
       where: { userId, ...(date ? { date } : {}) },
       orderBy: { date: 'desc' },
+      skip: pagination.skip,
+      take: pagination.take,
+    });
+  }
+
+  countByUser(userId: string, period: PeriodFilter) {
+    const date = this.buildDateFilter(period);
+    return this.prisma.transaction.count({
+      where: { userId, ...(date ? { date } : {}) },
     });
   }
 
