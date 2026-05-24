@@ -9,6 +9,9 @@ build/
 out/
 *.tsbuildinfo
 
+# Next.js auto-generated
+next-env.d.ts
+
 # Nx
 .nx/cache
 .nx/workspace-data
