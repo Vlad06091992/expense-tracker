@@ -174,3 +174,8 @@ refactor(database): rename Expense model to Transaction
 feat(api)!: remove legacy /expenses endpoints
 ```
 </important>
+
+
+## Документация
+При добавлении функционала проверяй .claude/docs/*.
+Актуализируй файлы при изменении архитектуры или API.
