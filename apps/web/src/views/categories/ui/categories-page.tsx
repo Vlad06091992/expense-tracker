@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import type { CategoryDto } from '@repo/shared-types';
 
@@ -37,26 +38,28 @@ export function CategoriesPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">Категории</h1>
-        <Button onClick={openCreate}>Добавить</Button>
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Категории</h1>
+          <p className="mt-1 text-sm text-slate-500">Управление категориями расходов</p>
+        </div>
+        <Button onClick={openCreate} className="flex items-center gap-2">
+          <Plus className="h-4 w-4" />
+          Добавить
+        </Button>
       </div>
 
       {isLoading ? (
         <div className="grid gap-3 sm:grid-cols-2">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <Skeleton key={index} className="h-[68px] w-full" />
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton key={i} className="h-[72px] w-full rounded-2xl" />
           ))}
         </div>
       ) : isError ? (
-        <p className="py-8 text-center text-sm text-muted-foreground">
-          Не удалось загрузить категории
-        </p>
+        <p className="py-12 text-center text-sm text-slate-400">Не удалось загрузить категории</p>
       ) : !data || data.length === 0 ? (
-        <p className="py-8 text-center text-sm text-muted-foreground">
-          Категорий пока нет
-        </p>
+        <p className="py-12 text-center text-sm text-slate-400">Категорий пока нет</p>
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
           {data.map((category) => (
@@ -71,7 +74,7 @@ export function CategoriesPage() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-destructive"
+                    className="text-red-500 hover:bg-red-50 hover:text-red-600"
                     onClick={() => handleDelete(category)}
                   >
                     Удалить
@@ -83,11 +86,7 @@ export function CategoriesPage() {
         </div>
       )}
 
-      <CategoryFormDialog
-        open={formOpen}
-        onOpenChange={setFormOpen}
-        category={editing}
-      />
+      <CategoryFormDialog open={formOpen} onOpenChange={setFormOpen} category={editing} />
     </div>
   );
 }

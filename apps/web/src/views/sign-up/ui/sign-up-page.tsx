@@ -28,15 +28,15 @@ export function SignUpPage() {
       setToken(res.accessToken);
       router.push('/');
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Sign up failed');
+      toast.error(err instanceof Error ? err.message : 'Не удалось создать аккаунт');
     }
   }
 
   return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle>Create an account</CardTitle>
-        <CardDescription>Enter your details to get started</CardDescription>
+    <Card className="w-full max-w-sm shadow-2xl shadow-black/20">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-xl">Регистрация</CardTitle>
+        <CardDescription>Введите данные для создания аккаунта</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -46,9 +46,9 @@ export function SignUpPage() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Имя</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} />
+                    <Input placeholder="Иван Иванов" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -72,7 +72,7 @@ export function SignUpPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Пароль</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="••••••" {...field} />
                   </FormControl>
@@ -99,7 +99,7 @@ export function SignUpPage() {
                       </Link>{' '}
                       и{' '}
                       <Link href="/privacy" className="underline underline-offset-4 hover:text-primary">
-                        политикой обработки данных
+                        политикой конфиденциальности
                       </Link>
                     </FormLabel>
                     <FormMessage />
@@ -108,15 +108,15 @@ export function SignUpPage() {
               )}
             />
             <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? 'Creating account…' : 'Create account'}
+              {form.formState.isSubmitting ? 'Создаём аккаунт…' : 'Создать аккаунт'}
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter className="justify-center text-sm text-muted-foreground">
-        Already have an account?&nbsp;
+        Уже есть аккаунт?&nbsp;
         <Link href="/sign-in" className="text-foreground underline underline-offset-4 hover:text-primary">
-          Sign in
+          Войти
         </Link>
       </CardFooter>
     </Card>

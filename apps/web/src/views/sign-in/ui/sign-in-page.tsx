@@ -27,15 +27,15 @@ export function SignInPage() {
       setToken(res.accessToken);
       router.push('/');
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Sign in failed');
+      toast.error(err instanceof Error ? err.message : 'Не удалось войти');
     }
   }
 
   return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle>Sign in</CardTitle>
-        <CardDescription>Enter your credentials to access your account</CardDescription>
+    <Card className="w-full max-w-sm shadow-2xl shadow-black/20">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-xl">Вход</CardTitle>
+        <CardDescription>Введите данные для доступа к аккаунту</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -58,7 +58,7 @@ export function SignInPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Пароль</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="••••••" {...field} />
                   </FormControl>
@@ -67,15 +67,15 @@ export function SignInPage() {
               )}
             />
             <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? 'Signing in…' : 'Sign in'}
+              {form.formState.isSubmitting ? 'Входим…' : 'Войти'}
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter className="justify-center text-sm text-muted-foreground">
-        Don&apos;t have an account?&nbsp;
+        Нет аккаунта?&nbsp;
         <Link href="/sign-up" className="text-foreground underline underline-offset-4 hover:text-primary">
-          Sign up
+          Зарегистрироваться
         </Link>
       </CardFooter>
     </Card>

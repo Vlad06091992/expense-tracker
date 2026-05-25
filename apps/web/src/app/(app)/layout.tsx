@@ -22,24 +22,27 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   if (!authorized) {
     return (
-      <div className="min-h-screen">
-        <div className="border-b">
-          <div className="container flex h-16 items-center">
-            <Skeleton className="h-6 w-32" />
+      <div className="flex h-screen overflow-hidden">
+        <div className="w-60 shrink-0 bg-slate-900" />
+        <div className="flex-1 overflow-y-auto p-8">
+          <div className="space-y-6">
+            <Skeleton className="h-8 w-48" />
+            <div className="grid gap-5 sm:grid-cols-3">
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-32 rounded-2xl" />
+              ))}
+            </div>
+            <Skeleton className="h-64 rounded-2xl" />
           </div>
         </div>
-        <main className="container py-8 space-y-4">
-          <Skeleton className="h-8 w-48" />
-          <Skeleton className="h-64 w-full" />
-        </main>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <AppHeader />
-      <main className="container py-8">{children}</main>
+      <main className="flex-1 overflow-y-auto p-8">{children}</main>
     </div>
   );
 }

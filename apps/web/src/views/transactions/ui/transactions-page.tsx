@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { toast } from 'sonner';
 import type { TransactionDto } from '@repo/shared-types';
 
@@ -43,15 +43,12 @@ export function TransactionsPage() {
   const [editing, setEditing] = useState<TransactionDto | undefined>(undefined);
   const [deleteTarget, setDeleteTarget] = useState<TransactionDto | undefined>(undefined);
 
-  const { data, isLoading, isError, isPlaceholderData } = useTransactions({
-    page,
-    limit: PAGE_SIZE,
-  });
+  const { data, isLoading, isError, isPlaceholderData } = useTransactions({ page, limit: PAGE_SIZE });
   const { data: categories } = useCategories();
   const deleteMutation = useDeleteTransaction();
 
   const categoryName = (id: string | null) =>
-    id ? categories?.find((category) => category.id === id)?.name : undefined;
+    id ? categories?.find((c) => c.id === id)?.name : undefined;
 
   const meta = data?.meta;
   const totalPages = meta?.totalPages ?? 1;
@@ -80,27 +77,33 @@ export function TransactionsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">Транзакции</h1>
-        <Button onClick={openCreate}>Добавить</Button>
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Транзакции</h1>
+          <p className="mt-1 text-sm text-slate-500">История доходов и расходов</p>
+        </div>
+        <Button onClick={openCreate} className="flex items-center gap-2">
+          <Plus className="h-4 w-4" />
+          Добавить
+        </Button>
       </div>
 
-      <div className="rounded-lg border">
+      <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-900/5">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Описание</TableHead>
-              <TableHead>Категория</TableHead>
-              <TableHead>Дата</TableHead>
-              <TableHead className="text-right">Сумма</TableHead>
+            <TableRow className="border-slate-100">
+              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">Описание</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">Категория</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">Дата</TableHead>
+              <TableHead className="text-right text-xs font-medium uppercase tracking-wide text-slate-400">Сумма</TableHead>
               <TableHead className="w-12" />
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              Array.from({ length: 5 }).map((_, index) => (
-                <TableRow key={index}>
+              Array.from({ length: 5 }).map((_, i) => (
+                <TableRow key={i}>
                   <TableCell colSpan={5}>
                     <Skeleton className="h-6 w-full" />
                   </TableCell>
@@ -108,30 +111,46 @@ export function TransactionsPage() {
               ))
             ) : isError ? (
               <TableRow>
-                <TableCell colSpan={5} className="py-8 text-center text-muted-foreground">
+                <TableCell colSpan={5} className="py-12 text-center text-sm text-slate-400">
                   Не удалось загрузить транзакции
                 </TableCell>
               </TableRow>
             ) : !data || data.items.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="py-8 text-center text-muted-foreground">
+                <TableCell colSpan={5} className="py-12 text-center text-sm text-slate-400">
                   Транзакций пока нет
                 </TableCell>
               </TableRow>
             ) : (
               data.items.map((transaction) => (
-                <TableRow key={transaction.id}>
-                  <TableCell className="font-medium">
-                    {transaction.description || 'Без описания'}
+                <TableRow key={transaction.id} className="border-slate-100 transition-colors hover:bg-slate-50">
+                  <TableCell>
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={cn(
+                          'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold',
+                          transaction.type === 'INCOME'
+                            ? 'bg-emerald-50 text-emerald-600'
+                            : 'bg-red-50 text-red-500',
+                        )}
+                      >
+                        {transaction.type === 'INCOME' ? '+' : '−'}
+                      </div>
+                      <span className="font-medium text-slate-800">
+                        {transaction.description || 'Без описания'}
+                      </span>
+                    </div>
                   </TableCell>
-                  <TableCell>{categoryName(transaction.categoryId) ?? '—'}</TableCell>
-                  <TableCell>{formatDate(transaction.date)}</TableCell>
+                  <TableCell>
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
+                      {categoryName(transaction.categoryId) ?? 'Без категории'}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-sm text-slate-500">{formatDate(transaction.date)}</TableCell>
                   <TableCell
                     className={cn(
                       'text-right font-semibold tabular-nums',
-                      transaction.type === 'INCOME'
-                        ? 'text-emerald-600'
-                        : 'text-destructive',
+                      transaction.type === 'INCOME' ? 'text-emerald-600' : 'text-red-500',
                     )}
                   >
                     {transaction.type === 'INCOME' ? '+' : '−'}
@@ -140,7 +159,7 @@ export function TransactionsPage() {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-600">
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -149,7 +168,7 @@ export function TransactionsPage() {
                           Редактировать
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          className="text-destructive"
+                          className="text-red-500 focus:text-red-500"
                           onSelect={() => setDeleteTarget(transaction)}
                         >
                           Удалить
@@ -166,48 +185,42 @@ export function TransactionsPage() {
 
       {meta && meta.total > 0 ? (
         <div className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-slate-400">
             Стр. {meta.page} из {totalPages} · всего {meta.total}
           </span>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
+            <button
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40"
               disabled={page <= 1 || isPlaceholderData}
-              onClick={() => setPage((current) => Math.max(1, current - 1))}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
             >
-              Назад
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40"
               disabled={page >= totalPages || isPlaceholderData}
-              onClick={() => setPage((current) => current + 1)}
+              onClick={() => setPage((p) => p + 1)}
             >
-              Вперёд
-            </Button>
+              <ChevronRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
       ) : null}
 
-      <TransactionFormDialog
-        open={formOpen}
-        onOpenChange={setFormOpen}
-        transaction={editing}
-      />
+      <TransactionFormDialog open={formOpen} onOpenChange={setFormOpen} transaction={editing} />
 
       <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(undefined)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Удалить транзакцию?</AlertDialogTitle>
             <AlertDialogDescription>
-              {deleteTarget?.description || 'Без описания'} будет удалена без возможности восстановления.
+              «{deleteTarget?.description || 'Без описания'}» будет удалена без возможности восстановления.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Отмена</AlertDialogCancel>
             <AlertDialogAction
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              className="bg-red-500 text-white hover:bg-red-600"
               onClick={confirmDelete}
             >
               Удалить
