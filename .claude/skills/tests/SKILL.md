@@ -6,6 +6,7 @@ allowed-tools: Read, Edit, Write, Bash(find*), Bash(pnpm*), Bash(cat*)
 model: claude-sonnet-4-6
 effort: high
 user_invocable: true
+argument-hint: [path]
 ---
 
 # tests

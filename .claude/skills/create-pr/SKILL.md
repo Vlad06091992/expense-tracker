@@ -6,6 +6,7 @@ allowed-tools: Bash(git*), Bash(gh*)
 model: claude-sonnet-4-6
 effort: medium
 user_invocable: true
+argument-hint: [branch-name] [pr-title]
 ---
 
 # create-pr
