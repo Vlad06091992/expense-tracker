@@ -143,38 +143,6 @@ EOF
 - Base branch: `master` (он же `main` на remote/origin).
 - После merge ветку удалять.
 
-<important if="если нужно создать коммит">
-
-## Соглашения о коммитах
-
-Следуем [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
-<type>(<scope>): <description>
-
-[необязательное тело]
-
-[необязательный footer]
-```
-
-**Типы:** `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `build`, `ci`, `chore`, `revert`
-
-**Scopes** (опционально, соответствует приложению/пакету): `api`, `web`, `database`, `shared-types`
-
-**Правила:**
-- Subject line: повелительное наклонение, строчные буквы, без точки, максимум 72 символа.
-- Breaking changes: добавь `!` после scope или `BREAKING CHANGE:` в footer.
-- В теле объясняй *почему*, а не *что*.
-
-**Примеры:**
-```
-feat(api): add transactions module with CQRS
-fix(web): prevent token loss on page refresh
-refactor(database): rename Expense model to Transaction
-feat(api)!: remove legacy /expenses endpoints
-```
-</important>
-
 
 ## Документация
 При добавлении функционала проверяй .claude/docs/*.
