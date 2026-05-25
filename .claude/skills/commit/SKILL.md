@@ -61,13 +61,15 @@ feat(api)!: remove legacy /expenses endpoints
 docs: update API endpoints in CLAUDE.md
 chore: update dependencies
 ```
+
+
 ## Контекст выполнения
+
 Статус проекта: !git status
-Последние коммиты: ``` !
-git log --oneline -10
-```
+Последние коммиты: !git log --oneline -10
 
 ## Порядок работы
+
 1. Запустить `git diff` — понять суть изменений.
 2. Определить правильный `тип` и `scope` по таблицам выше.
 3. Добавить нужные файлы в индекс (предпочитать конкретные имена файлов вместо `git add -A`).
@@ -82,7 +84,7 @@ EOF
 )"
 ```
 
-6. Проверить успех через `git status`.
+5. Проверить успех через `git status`.
 
 ## Правила безопасности
 
