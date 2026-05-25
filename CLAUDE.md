@@ -1,8 +1,8 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Этот файл содержит инструкции для Claude Code (claude.ai/code) при работе с репозиторием.
 
-## Project overview
+## Обзор проекта
 
 Expense Tracker — веб-приложение для личного учёта расходов. Пользователь регистрируется, создаёт категории и записывает траты; цель — дать простой инструмент для контроля личного бюджета без лишней сложности.
 
@@ -10,55 +10,71 @@ Expense Tracker — веб-приложение для личного учёта
 - **`apps/web`** — Next.js-фронтенд: авторизация, дашборд с расходами, управление категориями.
 - **`apps/api`** — NestJS REST API: JWT-аутентификация, CRUD расходов и категорий, хранение в PostgreSQL.
 
-## Stack
+## Стек
 
-- **Monorepo**: Nx 20 + pnpm workspaces
-- **Frontend** (`apps/web`): Next.js 16, App Router, TypeScript, Tailwind CSS, shadcn/ui
-- **Backend** (`apps/api`): NestJS 11, TypeScript, JWT auth (`passport-jwt`)
-- **Database**: PostgreSQL 16 via docker-compose
-- **ORM**: Prisma 6, schema lives in `packages/database/prisma/schema.prisma`
-- **Validation**: `class-validator` + `class-transformer` on the backend
+- **Монорепо**: Nx 20 + pnpm workspaces
+- **Фронтенд** (`apps/web`): Next.js 16 — подробнее в `apps/web/CLAUDE.md`
+- **Бэкенд** (`apps/api`): NestJS 11 — подробнее в `apps/api/CLAUDE.md`
+- **База данных**: PostgreSQL 16 через docker-compose
+- **ORM**: Prisma 6, схема находится в `packages/database/prisma/schema.prisma`
 
-## Development setup
+## Требования к окружению
+
+- Node.js >= 20.11.0
+- pnpm >= 9.15.0
+
+## Переменные окружения
+
+Все переменные задаются в `.env` (скопировать из `.env.example`):
+
+```
+# PostgreSQL (используется docker-compose)
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=expense_tracker
+
+# Prisma / API
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/expense_tracker
+JWT_SECRET=           # обязателен
+JWT_EXPIRES_IN=7d
+API_PORT=3001
+API_PREFIX=api
+CORS_ORIGIN=http://localhost:3000
+
+# Next.js (публичная переменная, нужна при сборке фронта)
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
+```
+
+## Первоначальная настройка
 
 ```bash
 pnpm install
-cp .env.example .env          # adjust credentials if needed
-docker compose up -d          # start PostgreSQL
-pnpm db:migrate               # run prisma migrate dev
-pnpm dev                      # start web (3000) and api (3001) in parallel
+cp .env.example .env          # заполнить JWT_SECRET и при необходимости остальное
+docker compose up -d          # запустить PostgreSQL
+pnpm db:migrate               # применить миграции Prisma
+pnpm dev                      # запустить web (3000) и api (3001) параллельно
 ```
 
-## Common commands
+## Общие команды
 
 ```bash
-# Run all apps
+# Запустить все приложения
 pnpm dev
 
-# Scope a command to one app
-pnpm --filter web dev
-pnpm --filter api start:dev
-
-# Build / lint / test everything
+# Сборка / линтинг / тесты
 pnpm build
 pnpm lint
 pnpm test
 
-# Run a single test file (from apps/api/)
-pnpm --filter api test -- --testPathPattern=auth
-
-# Database
-pnpm db:generate    # regenerate Prisma Client after schema changes
-pnpm db:migrate     # create and apply a new migration
-pnpm db:studio      # open Prisma Studio
-
-# Format
+# Форматирование
 pnpm format
 ```
 
-## Architecture
+Команды для отдельных приложений и работы с базой данных — в соответствующих `CLAUDE.md` (`apps/web/`, `apps/api/`).
 
-### Package graph
+## Архитектура
+
+### Граф пакетов
 
 ```
 apps/web  ──────────────────────┐
@@ -66,57 +82,27 @@ apps/web  ──────────────────────┐
 apps/api  ──> @repo/database ───┘
 ```
 
-- `@repo/database` — exports `PrismaClient` and model types. `apps/api` wraps it in `PrismaService` (`apps/api/src/prisma/`), registered as a global NestJS provider so any module can inject it without re-importing.
-- `@repo/shared-types` — plain TypeScript interfaces (no runtime code). Used for request/response DTOs shared between frontend and backend (e.g., `AuthResponse`, `ExpenseDto`).
-- `@repo/eslint-config` / `@repo/tsconfig` — shared config packages referenced via `workspace:*`.
+- `@repo/database` — экспортирует `PrismaClient` и типы моделей. В `apps/api` оборачивается в `PrismaService` (`apps/api/src/prisma/`), зарегистрированный как глобальный NestJS-провайдер — любой модуль может инжектировать его без повторного импорта.
+- `@repo/shared-types` — чистые TypeScript-интерфейсы (без runtime-кода). Используются для DTO запросов/ответов, общих между фронтендом и бэкендом (например, `AuthResponse`, `ExpenseDto`).
+- `@repo/eslint-config` / `@repo/tsconfig` — пакеты с общей конфигурацией, подключаются через `workspace:*`.
 
-### Backend (`apps/api`)
+### Схема базы данных
 
-NestJS modules are feature-sliced:
+Подробности о моделях — в `apps/api/CLAUDE.md`.
 
-```
-src/
-  prisma/          # PrismaModule (global) + PrismaService
-  auth/            # register/login → JWT; JwtStrategy + JwtAuthGuard
-  users/           # UsersService used by AuthService to look up users
-  expenses/        # CRUD, all routes protected by JwtAuthGuard
-  common/          # filters/, interceptors/ (empty stubs, ready to fill)
-```
+## Соглашения монорепо
 
-`JwtAuthGuard` is applied at controller level with `@UseGuards(JwtAuthGuard)`. The JWT payload is `{ sub: userId, email }` — validated via `JwtStrategy.validate()` which re-fetches the user from DB.
+- Все внутренние пакеты используют ссылки `workspace:*`, не публикуются в npm.
+- Shared TypeScript-пути настроены в `tsconfig.base.json` в корне (`@repo/database`, `@repo/shared-types`).
 
-`ConfigModule` is global; env vars are loaded from `.env.local` then `.env`.
+## Ветки (GitHub Flow)
 
-### Frontend (`apps/web`)
-
-Next.js App Router. Directory conventions:
-- `src/app/` — pages and layouts
-- `src/components/ui/` — shadcn/ui components (add via `npx shadcn add <component>`)
-- `src/lib/utils.ts` — `cn()` helper (clsx + tailwind-merge)
-- `src/lib/api.ts` — `API_URL` constant (`NEXT_PUBLIC_API_URL`)
-
-Tailwind uses CSS variables for theming (defined in `globals.css`). Dark mode is class-based.
-
-### Database schema
-
-Three models: `User` → `Category` (1-to-many), `User` → `Expense` (1-to-many), `Category` → `Expense` (optional). All deletes cascade from User; category deletion sets `Expense.categoryId` to null.
-
-## Key conventions
-
-- All internal packages use `workspace:*` references, not published to npm.
-- Shared TypeScript paths are configured in `tsconfig.base.json` at the root (`@repo/database`, `@repo/shared-types`).
-- After editing `schema.prisma`, always run `pnpm db:generate` before starting the API.
-- Backend DTOs use `class-validator` decorators; use `PartialType` from `@nestjs/mapped-types` for update DTOs.
-- `UpdateExpenseDto` extends `PartialType(CreateExpenseDto)` — this pattern should be followed for new resources.
-
-## Branch workflow (GitHub Flow)
-
-- `main` — всегда стабильная и деплоируемая ветка; прямые пуши запрещены
-- Любая новая работа начинается с ветки от `main`
-- Именование веток: `<type>/<short-description>` — тип совпадает с Conventional Commits (`feat`, `fix`, `refactor`, `chore`, …)
-- Ветка живёт ровно столько, сколько длится задача — слияние через PR, затем удаление
-- PR требует как минимум одного ревью перед merge в `main`
-- Merge-стратегия: squash-merge для фич, merge-commit для релизов
+- `main` — всегда стабильная и деплоируемая ветка; прямые пуши запрещены.
+- Любая новая работа начинается с ветки от `main`.
+- Именование веток: `<type>/<short-description>` — тип совпадает с Conventional Commits (`feat`, `fix`, `refactor`, `chore`, …).
+- Ветка живёт ровно столько, сколько длится задача — слияние через PR, затем удаление.
+- PR требует как минимум одного ревью перед merge в `main`.
+- Стратегия слияния: squash-merge для фич, merge-commit для релизов.
 
 **Примеры имён веток:**
 ```
@@ -126,7 +112,7 @@ refactor/auth-module
 chore/update-dependencies
 ```
 
-## Pull Request workflow
+## Pull Request
 
 PR создаётся через `gh pr create` после пуша ветки:
 
@@ -135,13 +121,13 @@ gh pr create \
   --base master \
   --title "feat(web,api): ..." \
   --body "$(cat <<'EOF'
-## Summary
+## Что сделано
 - ...
 
-## API changes
+## Изменения API
 - `GET /...` — ...
 
-## Test plan
+## План проверки
 - [ ] ...
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
@@ -150,37 +136,37 @@ EOF
 ```
 
 **Правила оформления PR:**
-- Title — по Conventional Commits (тип + scope + краткое описание, ≤72 символа)
-- Summary — маркированный список: что реализовано, зачем
-- API changes — перечисли новые/изменённые endpoints с методом и путём
-- Test plan — чеклист сценариев, которые нужно проверить вручную
-- Base branch: `master` (он же `main` на remote/origin)
-- После merge ветку удалять
+- Title — по Conventional Commits (тип + scope + краткое описание, ≤72 символа).
+- «Что сделано» — маркированный список: что реализовано, зачем.
+- «Изменения API» — перечисли новые/изменённые endpoints с методом и путём.
+- «План проверки» — чеклист сценариев для ручного тестирования.
+- Base branch: `master` (он же `main` на remote/origin).
+- После merge ветку удалять.
 
 <important if="если нужно создать коммит">
 
-## Commit conventions
+## Соглашения о коммитах
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
+Следуем [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
 <type>(<scope>): <description>
 
-[optional body]
+[необязательное тело]
 
-[optional footer]
+[необязательный footer]
 ```
 
-**Types:** `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `build`, `ci`, `chore`, `revert`
+**Типы:** `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `build`, `ci`, `chore`, `revert`
 
-**Scopes** (optional, match the app/package): `api`, `web`, `database`, `shared-types`
+**Scopes** (опционально, соответствует приложению/пакету): `api`, `web`, `database`, `shared-types`
 
-**Rules:**
-- Subject line: imperative mood, lowercase, no period, max 72 chars
-- Breaking changes: append `!` after scope or add `BREAKING CHANGE:` in footer
-- Use body to explain *why*, not *what*
+**Правила:**
+- Subject line: повелительное наклонение, строчные буквы, без точки, максимум 72 символа.
+- Breaking changes: добавь `!` после scope или `BREAKING CHANGE:` в footer.
+- В теле объясняй *почему*, а не *что*.
 
-**Examples:**
+**Примеры:**
 ```
 feat(api): add transactions module with CQRS
 fix(web): prevent token loss on page refresh
@@ -188,3 +174,8 @@ refactor(database): rename Expense model to Transaction
 feat(api)!: remove legacy /expenses endpoints
 ```
 </important>
+
+
+## Документация
+При добавлении функционала проверяй .claude/docs/*.
+Актуализируй файлы при изменении архитектуры или API.
