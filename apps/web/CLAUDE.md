@@ -1,4 +1,4 @@
-### Фронтенд (`apps/web`)
+# Фронтенд (`apps/web`)
 
 **Стек:** Next.js 16, App Router, TypeScript, Tailwind CSS, shadcn/ui, React Query, react-hook-form + zod.
 

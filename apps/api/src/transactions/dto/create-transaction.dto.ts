@@ -7,6 +7,7 @@ import {
   IsOptional,
   IsPositive,
   IsString,
+  IsUUID,
   MaxLength,
 } from 'class-validator';
 
@@ -38,6 +39,6 @@ export class CreateTransactionDto {
   /** UUID категории. Если не указан, транзакция создаётся без категории. */
   @ApiPropertyOptional({ example: 'cuid_abc123', description: 'UUID категории (опционально)' })
   @IsOptional()
-  @IsString()
+  @IsUUID()
   categoryId?: string;
 }

@@ -1,4 +1,4 @@
-### Бэкенд (`apps/api`)
+# Бэкенд (`apps/api`)
 
 **Стек:** NestJS 11, TypeScript, JWT-аутентификация (`passport-jwt`), `class-validator` + `class-transformer`.
 
