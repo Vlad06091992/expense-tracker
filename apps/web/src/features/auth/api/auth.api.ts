@@ -6,8 +6,7 @@ import { ApiError } from '@/shared/api/http-client';
 async function handleResponse<T>(res: Response): Promise<T> {
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    const message =
-      (Array.isArray(body.message) ? body.message[0] : body.message) ?? 'Something went wrong';
+    const message = (Array.isArray(body.message) ? body.message[0] : body.message) ?? 'Something went wrong';
     throw new ApiError(message, res.status);
   }
   return res.json() as Promise<T>;

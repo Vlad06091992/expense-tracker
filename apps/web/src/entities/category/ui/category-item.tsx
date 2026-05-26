@@ -12,9 +12,7 @@ export function CategoryItem({ category, actions }: CategoryItemProps) {
       <div className="flex min-w-0 items-center gap-3">
         <span
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-base"
-          style={
-            category.color ? { backgroundColor: category.color } : { backgroundColor: '#F1F5F9' }
-          }
+          style={category.color ? { backgroundColor: category.color } : { backgroundColor: '#F1F5F9' }}
         >
           {category.icon || '•'}
         </span>

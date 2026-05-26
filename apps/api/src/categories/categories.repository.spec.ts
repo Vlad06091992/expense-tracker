@@ -121,9 +121,7 @@ describe('CategoriesRepository', () => {
     it('should throw NotFoundException when category not found and not call update', async () => {
       prisma.category.findFirst.mockResolvedValue(null);
 
-      await expect(repo.updateByUser('u1', 'missing', { name: 'X' })).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(repo.updateByUser('u1', 'missing', { name: 'X' })).rejects.toThrow(NotFoundException);
       expect(prisma.category.update).not.toHaveBeenCalled();
     });
   });

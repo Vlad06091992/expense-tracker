@@ -21,12 +21,7 @@ import {
   AlertDialogTitle,
 } from '@/shared/ui/alert-dialog';
 import { Button } from '@/shared/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/shared/ui/dropdown-menu';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
 
@@ -43,8 +38,7 @@ export function TransactionsPage() {
   const { data: categories } = useCategories();
   const deleteMutation = useDeleteTransaction();
 
-  const categoryName = (id: string | null) =>
-    id ? categories?.find((c) => c.id === id)?.name : undefined;
+  const categoryName = (id: string | null) => (id ? categories?.find((c) => c.id === id)?.name : undefined);
 
   const meta = data?.meta;
   const totalPages = meta?.totalPages ?? 1;
@@ -89,15 +83,9 @@ export function TransactionsPage() {
         <Table>
           <TableHeader>
             <TableRow className="border-slate-100">
-              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">
-                Описание
-              </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">
-                Категория
-              </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">
-                Дата
-              </TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">Описание</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">Категория</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">Дата</TableHead>
               <TableHead className="text-right text-xs font-medium uppercase tracking-wide text-slate-400">
                 Сумма
               </TableHead>
@@ -127,25 +115,18 @@ export function TransactionsPage() {
               </TableRow>
             ) : (
               data.items.map((transaction) => (
-                <TableRow
-                  key={transaction.id}
-                  className="border-slate-100 transition-colors hover:bg-slate-50"
-                >
+                <TableRow key={transaction.id} className="border-slate-100 transition-colors hover:bg-slate-50">
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <div
                         className={cn(
                           'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold',
-                          transaction.type === 'INCOME'
-                            ? 'bg-emerald-50 text-emerald-600'
-                            : 'bg-red-50 text-red-500',
+                          transaction.type === 'INCOME' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500',
                         )}
                       >
                         {transaction.type === 'INCOME' ? '+' : '−'}
                       </div>
-                      <span className="font-medium text-slate-800">
-                        {transaction.description || 'Без описания'}
-                      </span>
+                      <span className="font-medium text-slate-800">{transaction.description || 'Без описания'}</span>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -153,9 +134,7 @@ export function TransactionsPage() {
                       {categoryName(transaction.categoryId) ?? 'Без категории'}
                     </span>
                   </TableCell>
-                  <TableCell className="text-sm text-slate-500">
-                    {formatDate(transaction.date)}
-                  </TableCell>
+                  <TableCell className="text-sm text-slate-500">{formatDate(transaction.date)}</TableCell>
                   <TableCell
                     className={cn(
                       'text-right font-semibold tabular-nums',
@@ -168,18 +147,12 @@ export function TransactionsPage() {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-slate-400 hover:text-slate-600"
-                        >
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-600">
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onSelect={() => openEdit(transaction)}>
-                          Редактировать
-                        </DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => openEdit(transaction)}>Редактировать</DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-red-500 focus:text-red-500"
                           onSelect={() => setDeleteTarget(transaction)}
@@ -222,24 +195,17 @@ export function TransactionsPage() {
 
       <TransactionFormDialog open={formOpen} onOpenChange={setFormOpen} transaction={editing} />
 
-      <AlertDialog
-        open={!!deleteTarget}
-        onOpenChange={(open) => !open && setDeleteTarget(undefined)}
-      >
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(undefined)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Удалить транзакцию?</AlertDialogTitle>
             <AlertDialogDescription>
-              «{deleteTarget?.description || 'Без описания'}» будет удалена без возможности
-              восстановления.
+              «{deleteTarget?.description || 'Без описания'}» будет удалена без возможности восстановления.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Отмена</AlertDialogCancel>
-            <AlertDialogAction
-              className="bg-red-500 text-white hover:bg-red-600"
-              onClick={confirmDelete}
-            >
+            <AlertDialogAction className="bg-red-500 text-white hover:bg-red-600" onClick={confirmDelete}>
               Удалить
             </AlertDialogAction>
           </AlertDialogFooter>

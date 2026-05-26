@@ -109,11 +109,7 @@ export class TransactionsController {
   @ApiResponse({ status: 401, description: 'Не аутентифицирован.' })
   @ApiResponse({ status: 404, description: 'Транзакция не найдена.' })
   @Patch(':id')
-  update(
-    @Request() req: { user: { id: string } },
-    @Param('id') id: string,
-    @Body() dto: UpdateTransactionDto,
-  ) {
+  update(@Request() req: { user: { id: string } }, @Param('id') id: string, @Body() dto: UpdateTransactionDto) {
     return this.commandBus.execute(new UpdateTransactionCommand(req.user.id, id, dto));
   }
 

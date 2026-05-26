@@ -26,9 +26,7 @@ export function TransactionRow({ transaction, categoryName, actions }: Transacti
           {isIncome ? '+' : '−'}
         </div>
         <div className="min-w-0">
-          <p className="truncate text-sm font-medium text-slate-800">
-            {transaction.description || 'Без описания'}
-          </p>
+          <p className="truncate text-sm font-medium text-slate-800">{transaction.description || 'Без описания'}</p>
           <p className="text-xs text-slate-400">
             {formatDate(transaction.date)}
             {categoryName ? ` · ${categoryName}` : ''}

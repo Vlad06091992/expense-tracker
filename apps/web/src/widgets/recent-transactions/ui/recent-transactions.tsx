@@ -16,8 +16,7 @@ export function RecentTransactions() {
   });
   const { data: categories } = useCategories();
 
-  const categoryName = (id: string | null) =>
-    id ? categories?.find((c) => c.id === id)?.name : undefined;
+  const categoryName = (id: string | null) => (id ? categories?.find((c) => c.id === id)?.name : undefined);
 
   const meta = data?.meta;
   const totalPages = meta?.totalPages ?? 1;

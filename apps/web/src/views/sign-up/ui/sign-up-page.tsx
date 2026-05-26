@@ -9,14 +9,7 @@ import { toast } from 'sonner';
 import { signUp, signUpSchema, type SignUpValues } from '@/features/auth';
 import { setToken } from '@/shared/lib/token';
 import { Button } from '@/shared/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/shared/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
@@ -95,25 +88,17 @@ export function SignUpPage() {
                   <FormControl>
                     <Checkbox
                       checked={field.value === true}
-                      onCheckedChange={(checked) =>
-                        field.onChange(checked === true ? true : undefined)
-                      }
+                      onCheckedChange={(checked) => field.onChange(checked === true ? true : undefined)}
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel className="text-sm font-normal">
                       Согласен с{' '}
-                      <Link
-                        href="/terms"
-                        className="underline underline-offset-4 hover:text-primary"
-                      >
+                      <Link href="/terms" className="underline underline-offset-4 hover:text-primary">
                         пользовательским соглашением
                       </Link>{' '}
                       и{' '}
-                      <Link
-                        href="/privacy"
-                        className="underline underline-offset-4 hover:text-primary"
-                      >
+                      <Link href="/privacy" className="underline underline-offset-4 hover:text-primary">
                         политикой конфиденциальности
                       </Link>
                     </FormLabel>
@@ -130,10 +115,7 @@ export function SignUpPage() {
       </CardContent>
       <CardFooter className="justify-center text-sm text-muted-foreground">
         Уже есть аккаунт?&nbsp;
-        <Link
-          href="/sign-in"
-          className="text-foreground underline underline-offset-4 hover:text-primary"
-        >
+        <Link href="/sign-in" className="text-foreground underline underline-offset-4 hover:text-primary">
           Войти
         </Link>
       </CardFooter>

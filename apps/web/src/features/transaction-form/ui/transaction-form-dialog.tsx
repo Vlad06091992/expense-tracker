@@ -9,14 +9,7 @@ import type { TransactionDto } from '@repo/shared-types';
 import { useCategories } from '@/entities/category';
 import { useCreateTransaction, useUpdateTransaction } from '../model/mutations';
 import { Button } from '@/shared/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/shared/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
@@ -50,11 +43,7 @@ function defaultValues(transaction?: TransactionDto): TransactionFormValues {
   };
 }
 
-export function TransactionFormDialog({
-  open,
-  onOpenChange,
-  transaction,
-}: TransactionFormDialogProps) {
+export function TransactionFormDialog({ open, onOpenChange, transaction }: TransactionFormDialogProps) {
   const isEdit = Boolean(transaction);
   const { data: categories } = useCategories();
   const createMutation = useCreateTransaction();
@@ -77,8 +66,7 @@ export function TransactionFormDialog({
       type: values.type,
       date: new Date(values.date).toISOString(),
       description: values.description?.trim() ? values.description.trim() : undefined,
-      categoryId:
-        values.categoryId && values.categoryId !== NO_CATEGORY ? values.categoryId : undefined,
+      categoryId: values.categoryId && values.categoryId !== NO_CATEGORY ? values.categoryId : undefined,
     };
 
     try {

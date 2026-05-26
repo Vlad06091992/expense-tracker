@@ -3,12 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { UpdateTransactionInput } from '@repo/shared-types';
 
-import {
-  createTransaction,
-  deleteTransaction,
-  transactionKeys,
-  updateTransaction,
-} from '@/entities/transaction';
+import { createTransaction, deleteTransaction, transactionKeys, updateTransaction } from '@/entities/transaction';
 
 export function useCreateTransaction() {
   const queryClient = useQueryClient();
@@ -21,8 +16,7 @@ export function useCreateTransaction() {
 export function useUpdateTransaction() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, input }: { id: string; input: UpdateTransactionInput }) =>
-      updateTransaction(id, input),
+    mutationFn: ({ id, input }: { id: string; input: UpdateTransactionInput }) => updateTransaction(id, input),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: transactionKeys.all }),
   });
 }

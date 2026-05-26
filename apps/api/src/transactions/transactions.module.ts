@@ -8,11 +8,7 @@ import { DeleteTransactionHandler } from './commands/delete-transaction.handler'
 import { ListTransactionsHandler } from './queries/list-transactions.handler';
 import { GetTransactionHandler } from './queries/get-transaction.handler';
 
-const CommandHandlers = [
-  CreateTransactionHandler,
-  UpdateTransactionHandler,
-  DeleteTransactionHandler,
-];
+const CommandHandlers = [CreateTransactionHandler, UpdateTransactionHandler, DeleteTransactionHandler];
 const QueryHandlers = [ListTransactionsHandler, GetTransactionHandler];
 
 /**

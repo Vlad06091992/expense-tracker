@@ -39,9 +39,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * @throws {UnauthorizedException} Если пользователь не найден в базе данных.
    */
   async validate(payload: JwtPayload) {
-    const user = await this.queryBus.execute<FindUserByIdQuery, User | null>(
-      new FindUserByIdQuery(payload.sub),
-    );
+    const user = await this.queryBus.execute<FindUserByIdQuery, User | null>(new FindUserByIdQuery(payload.sub));
     if (!user) {
       throw new UnauthorizedException();
     }

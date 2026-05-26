@@ -12,9 +12,7 @@ export interface ListTransactionsParams {
   limit?: number;
 }
 
-export function listTransactions(
-  params: ListTransactionsParams = {},
-): Promise<TransactionListResponse> {
+export function listTransactions(params: ListTransactionsParams = {}): Promise<TransactionListResponse> {
   const search = new URLSearchParams();
   if (params.page) search.set('page', String(params.page));
   if (params.limit) search.set('limit', String(params.limit));
@@ -29,10 +27,7 @@ export function createTransaction(input: CreateTransactionInput): Promise<Transa
   });
 }
 
-export function updateTransaction(
-  id: string,
-  input: UpdateTransactionInput,
-): Promise<TransactionDto> {
+export function updateTransaction(id: string, input: UpdateTransactionInput): Promise<TransactionDto> {
   return apiFetch<TransactionDto>(`/transactions/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(input),
