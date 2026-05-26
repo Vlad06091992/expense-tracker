@@ -2,6 +2,7 @@ import { Controller, Get, Request, UseGuards } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+
 import { FindUserByIdQuery } from './queries/find-user-by-id.query';
 
 @Controller('users')

@@ -2,6 +2,7 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { User } from '@repo/database/src/index';
 
 import { UsersRepository } from '../users.repository';
+
 import { FindUserByEmailQuery } from './find-user-by-email.query';
 
 @QueryHandler(FindUserByEmailQuery)

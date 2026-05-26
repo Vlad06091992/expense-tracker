@@ -2,6 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { User } from '@repo/database/src/index';
 
 import { UsersRepository } from '../users.repository';
+
 import { CreateUserCommand } from './create-user.command';
 
 @CommandHandler(CreateUserCommand)

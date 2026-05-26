@@ -1,18 +1,19 @@
 'use client';
 
-import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { CategoryDto } from '@repo/shared-types';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import type { CategoryDto } from '@repo/shared-types';
 
 import { useCreateCategory, useUpdateCategory } from '../model/mutations';
+import { categoryFormSchema, type CategoryFormValues } from '../model/schema';
+
 import { Button } from '@/shared/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 
-import { categoryFormSchema, type CategoryFormValues } from '../model/schema';
 
 const DEFAULT_COLOR = '#64748b';
 

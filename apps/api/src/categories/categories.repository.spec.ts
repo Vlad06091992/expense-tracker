@@ -1,8 +1,10 @@
 import { NotFoundException } from '@nestjs/common';
+
+import type { PrismaService } from '../prisma/prisma.service';
+
 import { CategoriesRepository } from './categories.repository';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
+import type { CreateCategoryDto } from './dto/create-category.dto';
+import type { UpdateCategoryDto } from './dto/update-category.dto';
 
 describe('CategoriesRepository', () => {
   let repo: CategoriesRepository;

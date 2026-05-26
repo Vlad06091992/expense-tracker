@@ -5,7 +5,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
-    'plugin:@next/next/recommended',
+    'plugin:@next/next/core-web-vitals-legacy',
   ],
   plugins: ['react', 'react-hooks', 'jsx-a11y'],
   settings: {

@@ -1,4 +1,4 @@
-import { UpdateTransactionDto } from '../dto/update-transaction.dto';
+import type { UpdateTransactionDto } from '../dto/update-transaction.dto';
 
 /** Команда частичного обновления транзакции. */
 export class UpdateTransactionCommand {

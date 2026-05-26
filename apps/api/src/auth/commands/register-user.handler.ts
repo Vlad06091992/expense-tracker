@@ -1,15 +1,17 @@
-import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import { ConflictException } from '@nestjs/common';
+import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
-import type { AuthResponse } from '@repo/shared-types';
 import { User } from '@repo/database/src/index';
+import type { AuthResponse } from '@repo/shared-types';
 import * as bcrypt from 'bcryptjs';
+
+import { buildAuthResponse } from '../utils/build-auth-response';
+
+import { RegisterUserCommand } from './register-user.command';
 
 import { CreateUserCommand } from '@/users/commands/create-user.command';
 import { FindUserByEmailQuery } from '@/users/queries/find-user-by-email.query';
 
-import { buildAuthResponse } from '../utils/build-auth-response';
-import { RegisterUserCommand } from './register-user.command';
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand, AuthResponse> {

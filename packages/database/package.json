@@ -11,12 +11,13 @@
     "prisma:studio": "prisma studio",
     "prisma:format": "prisma format",
     "build": "tsc",
-    "lint": "eslint \"src/**/*.ts\""
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint \"src/**/*.ts\""
   },
   "dependencies": {
     "@prisma/client": "^6.1.0"
   },
   "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
     "@repo/tsconfig": "workspace:*",
     "prisma": "^6.1.0",
     "typescript": "^5.7.2"

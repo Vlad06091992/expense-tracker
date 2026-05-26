@@ -12,12 +12,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+
+import { CreateCategoryCommand } from './commands/create-category.command';
+import { DeleteCategoryCommand } from './commands/delete-category.command';
+import { UpdateCategoryCommand } from './commands/update-category.command';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { CreateCategoryCommand } from './commands/create-category.command';
-import { UpdateCategoryCommand } from './commands/update-category.command';
-import { DeleteCategoryCommand } from './commands/delete-category.command';
 import { ListCategoriesQuery } from './queries/list-categories.query';
 
 @UseGuards(JwtAuthGuard)

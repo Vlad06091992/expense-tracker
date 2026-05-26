@@ -14,15 +14,17 @@ import {
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
-import { ListTransactionsQueryDto } from './dto/list-transactions.query-dto';
+
 import { CreateTransactionCommand } from './commands/create-transaction.command';
-import { UpdateTransactionCommand } from './commands/update-transaction.command';
 import { DeleteTransactionCommand } from './commands/delete-transaction.command';
-import { ListTransactionsQuery } from './queries/list-transactions.query';
+import { UpdateTransactionCommand } from './commands/update-transaction.command';
+import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { ListTransactionsQueryDto } from './dto/list-transactions.query-dto';
+import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { GetTransactionQuery } from './queries/get-transaction.query';
+import { ListTransactionsQuery } from './queries/list-transactions.query';
 
 /**
  * REST-контроллер для управления транзакциями текущего пользователя.

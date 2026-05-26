@@ -1,5 +1,5 @@
-import { TransactionType } from '@repo/database';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { TransactionType } from '@repo/database';
 import { IsDateString, IsEnum, IsNumber, IsOptional, IsPositive, IsString, IsUUID, MaxLength } from 'class-validator';
 
 /** DTO для создания транзакции. */

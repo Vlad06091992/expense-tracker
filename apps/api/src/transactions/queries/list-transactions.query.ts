@@ -1,4 +1,4 @@
-import { PeriodFilter } from '../transactions.repository';
+import type { PeriodFilter } from '../transactions.repository';
 
 /** Параметры пагинации в терминах страниц (page/limit), до конвертации в skip/take). */
 export interface PaginationInput {

@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { MoreHorizontal, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
-import { toast } from 'sonner';
 import type { TransactionDto } from '@repo/shared-types';
+import { MoreHorizontal, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { useCategories } from '@/entities/category';
 import { formatAmount, formatDate, useTransactions } from '@/entities/transaction';

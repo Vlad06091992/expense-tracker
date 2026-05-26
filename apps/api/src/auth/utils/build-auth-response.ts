@@ -1,6 +1,6 @@
-import { JwtService } from '@nestjs/jwt';
+import type { JwtService } from '@nestjs/jwt';
+import type { User } from '@repo/database/src/index';
 import type { AuthResponse, JwtPayload } from '@repo/shared-types';
-import { User } from '@repo/database/src/index';
 
 export function buildAuthResponse(user: User, jwtService: JwtService): AuthResponse {
   const payload: JwtPayload = { sub: user.id, email: user.email };

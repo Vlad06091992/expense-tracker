@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import type { CategoryDto } from '@repo/shared-types';
+import type { ReactNode } from 'react';
 
 interface CategoryItemProps {
   category: CategoryDto;

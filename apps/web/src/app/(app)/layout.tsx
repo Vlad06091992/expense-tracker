@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import { ROUTES } from '@/shared/config/routes';
 import { getToken } from '@/shared/lib/token';
@@ -14,6 +14,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (getToken()) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAuthorized(true);
     } else {
       router.replace(ROUTES.signIn);

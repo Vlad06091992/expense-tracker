@@ -2,6 +2,7 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { User } from '@repo/database/src/index';
 
 import { UsersRepository } from '../users.repository';
+
 import { FindUserByIdQuery } from './find-user-by-id.query';
 
 @QueryHandler(FindUserByIdQuery)

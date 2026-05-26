@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
 
 import { useCategories } from '@/entities/category';
 import { TransactionRow, useTransactions } from '@/entities/transaction';

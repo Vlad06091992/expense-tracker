@@ -1,9 +1,9 @@
-import { QueryBus } from '@nestjs/cqrs';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { QueryBus } from '@nestjs/cqrs';
 import { PassportStrategy } from '@nestjs/passport';
-import type { JwtPayload } from '@repo/shared-types';
 import { User } from '@repo/database/src/index';
+import type { JwtPayload } from '@repo/shared-types';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { FindUserByIdQuery } from '../../users/queries/find-user-by-id.query';

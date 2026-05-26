@@ -1,6 +1,8 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { ListCategoriesQuery } from './list-categories.query';
+
 import { CategoriesRepository } from '../categories.repository';
+
+import { ListCategoriesQuery } from './list-categories.query';
 
 @QueryHandler(ListCategoriesQuery)
 export class ListCategoriesHandler implements IQueryHandler<ListCategoriesQuery> {

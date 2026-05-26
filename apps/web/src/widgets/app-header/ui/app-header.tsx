@@ -1,8 +1,8 @@
 'use client';
 
+import { LayoutDashboard, ArrowLeftRight, Tags, LogOut, Wallet } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, ArrowLeftRight, Tags, LogOut, Wallet } from 'lucide-react';
 
 import { useCurrentUser } from '@/entities/user';
 import { useLogout } from '@/features/auth';

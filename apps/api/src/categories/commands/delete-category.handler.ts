@@ -1,6 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { DeleteCategoryCommand } from './delete-category.command';
+
 import { CategoriesRepository } from '../categories.repository';
+
+import { DeleteCategoryCommand } from './delete-category.command';
 
 @CommandHandler(DeleteCategoryCommand)
 export class DeleteCategoryHandler implements ICommandHandler<DeleteCategoryCommand> {

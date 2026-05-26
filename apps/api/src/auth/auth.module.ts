@@ -1,14 +1,14 @@
-import { CqrsModule } from '@nestjs/cqrs';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CqrsModule } from '@nestjs/cqrs';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtModuleOptions } from '@nestjs/jwt/dist/interfaces/jwt-module-options.interface';
 import { JwtSignOptions } from '@nestjs/jwt/index';
 import { PassportModule } from '@nestjs/passport';
-import { JwtModuleOptions } from '@nestjs/jwt/dist/interfaces/jwt-module-options.interface';
 
-import { RegisterUserHandler } from './commands/register-user.handler';
-import { LoginUserHandler } from './commands/login-user.handler';
 import { AuthController } from './auth.controller';
+import { LoginUserHandler } from './commands/login-user.handler';
+import { RegisterUserHandler } from './commands/register-user.handler';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({

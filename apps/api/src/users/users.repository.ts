@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@/prisma/prisma.service';
 import { User, Prisma } from '@repo/database/src/index';
+
+import { PrismaService } from '@/prisma/prisma.service';
 
 /** Инкапсулирует все запросы к таблице User через Prisma. */
 @Injectable()

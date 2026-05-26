@@ -1,7 +1,7 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { UpdateCategoryInput } from '@repo/shared-types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { categoryKeys, createCategory, deleteCategory, updateCategory } from '@/entities/category';
 

@@ -1,14 +1,16 @@
-import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import { UnauthorizedException } from '@nestjs/common';
+import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
-import type { AuthResponse } from '@repo/shared-types';
 import { User } from '@repo/database/src/index';
+import type { AuthResponse } from '@repo/shared-types';
 import * as bcrypt from 'bcryptjs';
 
-import { FindUserByEmailQuery } from '@/users/queries/find-user-by-email.query';
 
 import { buildAuthResponse } from '../utils/build-auth-response';
+
 import { LoginUserCommand } from './login-user.command';
+
+import { FindUserByEmailQuery } from '@/users/queries/find-user-by-email.query';
 
 @CommandHandler(LoginUserCommand)
 export class LoginUserHandler implements ICommandHandler<LoginUserCommand, AuthResponse> {

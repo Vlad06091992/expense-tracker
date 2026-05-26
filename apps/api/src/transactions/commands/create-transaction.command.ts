@@ -1,4 +1,4 @@
-import { CreateTransactionDto } from '../dto/create-transaction.dto';
+import type { CreateTransactionDto } from '../dto/create-transaction.dto';
 
 /** Команда создания новой транзакции. */
 export class CreateTransactionCommand {

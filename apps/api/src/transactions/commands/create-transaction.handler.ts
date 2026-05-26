@@ -1,6 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreateTransactionCommand } from './create-transaction.command';
+
 import { TransactionsRepository } from '../transactions.repository';
+
+import { CreateTransactionCommand } from './create-transaction.command';
 
 /** Обработчик команды {@link CreateTransactionCommand}. */
 @CommandHandler(CreateTransactionCommand)

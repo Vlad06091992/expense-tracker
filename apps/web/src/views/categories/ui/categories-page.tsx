@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { Plus } from 'lucide-react';
-import { toast } from 'sonner';
 import type { CategoryDto } from '@repo/shared-types';
+import { Plus } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { CategoryItem, useCategories } from '@/entities/category';
 import { CategoryFormDialog, useDeleteCategory } from '@/features/category-form';

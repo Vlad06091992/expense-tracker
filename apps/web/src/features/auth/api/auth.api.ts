@@ -1,7 +1,7 @@
 import type { AuthResponse, LoginInput, RegisterInput } from '@repo/shared-types';
 
-import { API_URL } from '@/shared/config/api';
 import { ApiError } from '@/shared/api/http-client';
+import { API_URL } from '@/shared/config/api';
 
 async function handleResponse<T>(res: Response): Promise<T> {
   if (!res.ok) {

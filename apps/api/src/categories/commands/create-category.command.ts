@@ -1,4 +1,4 @@
-import { CreateCategoryDto } from '../dto/create-category.dto';
+import type { CreateCategoryDto } from '../dto/create-category.dto';
 
 export class CreateCategoryCommand {
   constructor(

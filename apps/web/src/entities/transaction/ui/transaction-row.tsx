@@ -1,9 +1,10 @@
-import type { ReactNode } from 'react';
 import type { TransactionDto } from '@repo/shared-types';
+import type { ReactNode } from 'react';
+
+import { formatAmount, formatDate } from '../lib/format';
 
 import { cn } from '@/shared/lib/utils';
 
-import { formatAmount, formatDate } from '../lib/format';
 
 interface TransactionRowProps {
   transaction: TransactionDto;

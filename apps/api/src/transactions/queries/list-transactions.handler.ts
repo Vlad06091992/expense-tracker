@@ -1,6 +1,8 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { ListTransactionsQuery } from './list-transactions.query';
+
 import { TransactionsRepository } from '../transactions.repository';
+
+import { ListTransactionsQuery } from './list-transactions.query';
 
 /** Обработчик запроса {@link ListTransactionsQuery}. */
 @QueryHandler(ListTransactionsQuery)

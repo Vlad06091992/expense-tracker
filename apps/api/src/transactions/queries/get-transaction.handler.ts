@@ -1,6 +1,8 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { GetTransactionQuery } from './get-transaction.query';
+
 import { TransactionsRepository } from '../transactions.repository';
+
+import { GetTransactionQuery } from './get-transaction.query';
 
 /** Обработчик запроса {@link GetTransactionQuery}. */
 @QueryHandler(GetTransactionQuery)

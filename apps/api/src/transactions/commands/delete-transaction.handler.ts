@@ -1,6 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { DeleteTransactionCommand } from './delete-transaction.command';
+
 import { TransactionsRepository } from '../transactions.repository';
+
+import { DeleteTransactionCommand } from './delete-transaction.command';
 
 /** Обработчик команды {@link DeleteTransactionCommand}. */
 @CommandHandler(DeleteTransactionCommand)

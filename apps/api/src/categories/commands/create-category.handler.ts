@@ -1,6 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreateCategoryCommand } from './create-category.command';
+
 import { CategoriesRepository } from '../categories.repository';
+
+import { CreateCategoryCommand } from './create-category.command';
 
 @CommandHandler(CreateCategoryCommand)
 export class CreateCategoryHandler implements ICommandHandler<CreateCategoryCommand> {
