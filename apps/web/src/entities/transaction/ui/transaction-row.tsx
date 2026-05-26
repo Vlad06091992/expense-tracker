@@ -42,7 +42,8 @@ export function TransactionRow({ transaction, categoryName, actions }: Transacti
             isIncome ? 'text-emerald-600' : 'text-red-500',
           )}
         >
-          {isIncome ? '+' : '−'}{formatAmount(transaction.amount)}
+          {isIncome ? '+' : '−'}
+          {formatAmount(transaction.amount)}
         </span>
         {actions}
       </div>

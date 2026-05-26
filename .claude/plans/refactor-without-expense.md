@@ -5,6 +5,7 @@
 Упрощаем приложение: убираем сущность Expense целиком. Остаются только User и Category. Создаём полноценный categories контроллер (CRUD) с JWT-защитой и валидацией через class-validator. Старый expenses модуль удаляется.
 
 Category:
+
 - `id`, `name`, `color?`, `icon?`, `userId`, `createdAt`, `updatedAt`
 
 ---
@@ -51,6 +52,7 @@ categories/
 ```
 
 Маршруты (все под `@UseGuards(JwtAuthGuard)`):
+
 - `POST /categories` → создать
 - `GET /categories` → список всех для текущего пользователя
 - `PATCH /categories/:id` → обновить (проверка владельца)
@@ -71,6 +73,7 @@ categories/
 Collection v2.1 с переменными `{{baseUrl}}` = `http://localhost:3001` и `{{token}}`.
 
 Запросы:
+
 - `POST /auth/register`
 - `POST /auth/login` — тест-скрипт сохраняет `accessToken` в `{{token}}`
 - `POST /categories`
@@ -82,12 +85,12 @@ Collection v2.1 с переменными `{{baseUrl}}` = `http://localhost:3001
 
 ## Critical Files
 
-| File | Status |
-|---|---|
-| `packages/database/prisma/schema.prisma` | ✅ done |
-| `packages/shared-types/src/expense.ts` | ✅ deleted |
-| `packages/shared-types/src/index.ts` | ✅ done |
-| `apps/api/src/expenses/` | ✅ deleted |
-| `apps/api/src/categories/` | ✅ created |
-| `apps/api/src/app.module.ts` | ✅ done |
-| `postman_collection.json` | ⬜ todo |
+| File                                     | Status     |
+| ---------------------------------------- | ---------- |
+| `packages/database/prisma/schema.prisma` | ✅ done    |
+| `packages/shared-types/src/expense.ts`   | ✅ deleted |
+| `packages/shared-types/src/index.ts`     | ✅ done    |
+| `apps/api/src/expenses/`                 | ✅ deleted |
+| `apps/api/src/categories/`               | ✅ created |
+| `apps/api/src/app.module.ts`             | ✅ done    |
+| `postman_collection.json`                | ⬜ todo    |

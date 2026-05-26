@@ -60,9 +60,7 @@ export function AppHeader() {
           </div>
           <div className="min-w-0">
             <p className="truncate text-sm font-medium text-white">{displayName}</p>
-            {user?.email ? (
-              <p className="truncate text-xs text-slate-400">{user.email}</p>
-            ) : null}
+            {user?.email ? <p className="truncate text-xs text-slate-400">{user.email}</p> : null}
           </div>
         </div>
         <button

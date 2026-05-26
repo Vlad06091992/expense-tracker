@@ -7,12 +7,14 @@
 ## Изменения
 
 ### 1. Зависимости
+
 - [x] `apps/api/package.json`: добавить `@nestjs/cqrs` (^11.x).
 - [x] `pnpm install` после правки.
 
 ### 2. Users module — добавить handlers
 
 Структура:
+
 ```
 apps/api/src/users/
   commands/

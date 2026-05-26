@@ -21,8 +21,9 @@ src/
 ## Архитектура: CQRS + Repository
 
 Все операции реализованы через CQRS (`@nestjs/cqrs`):
+
 - **Command Handlers** — мутации (create, update, delete).
-- **Query Handlers** — чтение (list, get, findBy*).
+- **Query Handlers** — чтение (list, get, findBy\*).
 
 Контроллеры инжектируют `CommandBus` и `QueryBus`, handlers работают с **Repository**-классами (`TransactionsRepository`, `CategoriesRepository`, `UsersRepository`), которые инкапсулируют все запросы к Prisma. При добавлении нового ресурса следовать этой же схеме.
 
@@ -57,6 +58,7 @@ DELETE /api/categories/:id      — возвращает 204 без тела
 Три модели: `User` → `Category` (1-to-many), `User` → `Transaction` (1-to-many), `Category` → `Transaction` (опционально). Все удаления каскадируются от User; удаление категории обнуляет `Transaction.categoryId`.
 
 Важные ограничения:
+
 - `Category`: уникальный составной индекс `(userId, name)` — нельзя создать две категории с одинаковым именем у одного пользователя.
 - `Transaction`: составной индекс `(userId, date)` — оптимизирует фильтрацию по дате.
 - `amount` хранится как `Decimal(12,2)`, при сериализации в JSON приходит строкой.
@@ -96,5 +98,6 @@ pnpm db:studio      # открыть Prisma Studio
 - Ошибки: `ConflictException` (дублирующий email/имя категории), `NotFoundException` (ресурс не найден).
 
 ## Документация
+
 После изменения методов — обновляй JSDoc.
 Для DTO и контроллеров — добавляй/обновляй Swagger декораторы.

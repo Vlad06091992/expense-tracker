@@ -35,8 +35,7 @@ export async function apiFetch<T>(path: string, options: RequestInit = {}): Prom
   if (!res.ok) {
     const body = (await res.json().catch(() => ({}))) as { message?: string | string[] };
     const message =
-      (Array.isArray(body.message) ? body.message[0] : body.message) ??
-      'Что-то пошло не так';
+      (Array.isArray(body.message) ? body.message[0] : body.message) ?? 'Что-то пошло не так';
     throw new ApiError(message, res.status);
   }
 

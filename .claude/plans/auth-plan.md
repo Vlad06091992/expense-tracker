@@ -9,22 +9,26 @@
 ### ✅ 1. Установка зависимостей и shadcn компонентов
 
 В `apps/web`:
+
 - Добавлены `react-hook-form`, `@hookform/resolvers`, `sonner`.
 - Установлены shadcn компоненты: `button`, `input`, `label`, `card`, `form`, `sonner` — в `apps/web/src/components/ui/`.
 
 ### ✅ 2. Слой работы с API
 
 Создан `apps/web/src/lib/auth.ts`:
+
 - Функции `signIn({ email, password })` и `signUp({ email, password, name })` — обёртки над `fetch`.
 - Возвращают типизированный `AuthResponse` из `@repo/shared-types`.
 - При не-2xx ответе бросают ошибку с сообщением от сервера.
 
 Создан `apps/web/src/lib/token.ts`:
+
 - Хелперы `getToken()`, `setToken(token)`, `clearToken()` поверх `localStorage` (ключ `access_token`).
 
 ### ✅ 3. Zod-схемы для форм
 
 Создан `apps/web/src/lib/validations/auth.ts`:
+
 - `signInSchema`: `email` (валидный email), `password` (min 6).
 - `signUpSchema`: `email`, `password` (min 6), `name` (min 1).
 - Типы `SignInValues`, `SignUpValues` через `z.infer`.
@@ -36,6 +40,7 @@
 ### ✅ 5. Страница `/sign-in`
 
 Создан `apps/web/src/app/(auth)/sign-in/page.tsx`:
+
 - Client component, `<Card>` с заголовком "Sign in".
 - `react-hook-form` + `zodResolver(signInSchema)`, поля email/password.
 - Submit → `signIn()` → `setToken(res.accessToken)` → `router.push('/')`.
@@ -45,6 +50,7 @@
 ### ✅ 6. Страница `/sign-up`
 
 Создан `apps/web/src/app/(auth)/sign-up/page.tsx`:
+
 - Три поля (name, email, password), schema `signUpSchema`.
 - Submit → `signUp()` → `setToken(res.accessToken)` → `router.push('/')`.
 - Ссылка "Already have an account? Sign in" → `/sign-in`.
@@ -56,6 +62,7 @@
 ## Файлы, которые были созданы/изменены
 
 Созданы:
+
 - ✅ `apps/web/src/app/(auth)/layout.tsx`
 - ✅ `apps/web/src/app/(auth)/sign-in/page.tsx`
 - ✅ `apps/web/src/app/(auth)/sign-up/page.tsx`
@@ -65,6 +72,7 @@
 - ✅ `apps/web/src/components/ui/*` (button, input, label, card, form, sonner)
 
 Изменены:
+
 - ✅ `apps/web/src/app/layout.tsx` — добавлен `<Toaster />`.
 - ✅ `apps/web/package.json` — новые зависимости.
 

@@ -9,7 +9,14 @@ import { toast } from 'sonner';
 import { signIn, signInSchema, type SignInValues } from '@/features/auth';
 import { setToken } from '@/shared/lib/token';
 import { Button } from '@/shared/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/shared/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 
@@ -74,7 +81,10 @@ export function SignInPage() {
       </CardContent>
       <CardFooter className="justify-center text-sm text-muted-foreground">
         Нет аккаунта?&nbsp;
-        <Link href="/sign-up" className="text-foreground underline underline-offset-4 hover:text-primary">
+        <Link
+          href="/sign-up"
+          className="text-foreground underline underline-offset-4 hover:text-primary"
+        >
           Зарегистрироваться
         </Link>
       </CardFooter>

@@ -106,26 +106,26 @@ src/
 
 ## Куда что класть — быстрая таблица
 
-| Что создаёшь | Слой | Пример пути |
-|---|---|---|
-| Примитивный UI без логики (кнопка, инпут) | `shared/ui/` | `shared/ui/badge.tsx` |
-| Утилита без бизнеса (`cn`, форматирование даты) | `shared/lib/` | `shared/lib/utils.ts` |
-| Константы маршрутов | `shared/config/routes.ts` | `ROUTES.dashboard` |
-| Базовый URL API | `shared/config/api.ts` | `API_URL` |
-| Работа с токеном (get/set/remove) | `shared/lib/token.ts` | — |
-| Базовый HTTP-клиент | `shared/api/http-client.ts` | — |
-| Тип / интерфейс бизнес-сущности | `entities/<name>/model/` | `entities/transaction/model/` |
-| API-запросы одной сущности | `entities/<name>/api/` | `entities/transaction/api/transaction.api.ts` |
-| React Query хуки для сущности | `entities/<name>/model/queries.ts` | `useTransactions()` |
-| Утилита специфичная для сущности | `entities/<name>/lib/` | `entities/transaction/lib/format.ts` |
-| UI одного элемента сущности | `entities/<name>/ui/` | `entities/transaction/ui/transaction-row.tsx` |
-| Zod-схема формы | `features/<name>/model/schema.ts` | `features/category-form/model/schema.ts` |
-| Хук с логикой действия | `features/<name>/model/` | `features/auth/model/use-logout.ts` |
-| API-вызовы фичи (не CRUD-сущности) | `features/<name>/api/` | `features/auth/api/auth.api.ts` |
-| Диалог / форма с действием | `features/<name>/ui/` | `features/transaction-form/ui/transaction-form-dialog.tsx` |
-| Шапка, сайдбар, лента с данными | `widgets/` | `widgets/app-header/ui/app-header.tsx` |
-| Полный UI страницы | `views/<name>/ui/` | `views/dashboard/ui/dashboard-page.tsx` |
-| Страница Next.js | `app/` | `app/(app)/page.tsx` — только импорт из `views/` |
+| Что создаёшь                                    | Слой                               | Пример пути                                                |
+| ----------------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
+| Примитивный UI без логики (кнопка, инпут)       | `shared/ui/`                       | `shared/ui/badge.tsx`                                      |
+| Утилита без бизнеса (`cn`, форматирование даты) | `shared/lib/`                      | `shared/lib/utils.ts`                                      |
+| Константы маршрутов                             | `shared/config/routes.ts`          | `ROUTES.dashboard`                                         |
+| Базовый URL API                                 | `shared/config/api.ts`             | `API_URL`                                                  |
+| Работа с токеном (get/set/remove)               | `shared/lib/token.ts`              | —                                                          |
+| Базовый HTTP-клиент                             | `shared/api/http-client.ts`        | —                                                          |
+| Тип / интерфейс бизнес-сущности                 | `entities/<name>/model/`           | `entities/transaction/model/`                              |
+| API-запросы одной сущности                      | `entities/<name>/api/`             | `entities/transaction/api/transaction.api.ts`              |
+| React Query хуки для сущности                   | `entities/<name>/model/queries.ts` | `useTransactions()`                                        |
+| Утилита специфичная для сущности                | `entities/<name>/lib/`             | `entities/transaction/lib/format.ts`                       |
+| UI одного элемента сущности                     | `entities/<name>/ui/`              | `entities/transaction/ui/transaction-row.tsx`              |
+| Zod-схема формы                                 | `features/<name>/model/schema.ts`  | `features/category-form/model/schema.ts`                   |
+| Хук с логикой действия                          | `features/<name>/model/`           | `features/auth/model/use-logout.ts`                        |
+| API-вызовы фичи (не CRUD-сущности)              | `features/<name>/api/`             | `features/auth/api/auth.api.ts`                            |
+| Диалог / форма с действием                      | `features/<name>/ui/`              | `features/transaction-form/ui/transaction-form-dialog.tsx` |
+| Шапка, сайдбар, лента с данными                 | `widgets/`                         | `widgets/app-header/ui/app-header.tsx`                     |
+| Полный UI страницы                              | `views/<name>/ui/`                 | `views/dashboard/ui/dashboard-page.tsx`                    |
+| Страница Next.js                                | `app/`                             | `app/(app)/page.tsx` — только импорт из `views/`           |
 
 ---
 
@@ -136,7 +136,9 @@ src/
 ```tsx
 // app/(app)/page.tsx
 import { DashboardPage } from '@/views/dashboard';
-export default function Page() { return <DashboardPage />; }
+export default function Page() {
+  return <DashboardPage />;
+}
 ```
 
 Вся реальная вёрстка и логика — в `views/`:
@@ -152,13 +154,13 @@ import { RecentTransactions } from '@/widgets/recent-transactions';
 
 ## Разница: `entities` vs `features`
 
-| | `entities` | `features` |
-|---|---|---|
-| **Что это** | Бизнес-сущность (данные + один UI-элемент) | Действие пользователя |
-| **Примеры** | `transaction`, `category`, `user` | `auth`, `transaction-form`, `category-form` |
-| **API** | CRUD одной сущности | Сценарный вызов (login, logout) |
-| **UI** | Одна строка таблицы, один тег | Форма, диалог, кнопка с мутацией |
-| **Может импортировать** | только `shared` | `entities` + `shared` |
+|                         | `entities`                                 | `features`                                  |
+| ----------------------- | ------------------------------------------ | ------------------------------------------- |
+| **Что это**             | Бизнес-сущность (данные + один UI-элемент) | Действие пользователя                       |
+| **Примеры**             | `transaction`, `category`, `user`          | `auth`, `transaction-form`, `category-form` |
+| **API**                 | CRUD одной сущности                        | Сценарный вызов (login, logout)             |
+| **UI**                  | Одна строка таблицы, один тег              | Форма, диалог, кнопка с мутацией            |
+| **Может импортировать** | только `shared`                            | `entities` + `shared`                       |
 
 ---
 

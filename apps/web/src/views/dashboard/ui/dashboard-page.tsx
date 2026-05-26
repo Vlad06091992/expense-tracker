@@ -51,28 +51,30 @@ export function DashboardPage() {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-3">
-        {CARD_CONFIG.map(({ label, key, icon: Icon, bg, iconBg, iconColor, valueColor, borderColor }) => (
-          <div
-            key={label}
-            className={cn(
-              'rounded-2xl border-l-4 p-6 shadow-sm',
-              bg,
-              borderColor,
-            )}
-          >
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
-                <p className={cn('mt-2 text-3xl font-bold tabular-nums', valueColor)}>
-                  {formatAmount(summary?.[key] ?? 0)}
-                </p>
-              </div>
-              <div className={cn('flex h-10 w-10 items-center justify-center rounded-xl', iconBg)}>
-                <Icon className={cn('h-5 w-5', iconColor)} />
+        {CARD_CONFIG.map(
+          ({ label, key, icon: Icon, bg, iconBg, iconColor, valueColor, borderColor }) => (
+            <div
+              key={label}
+              className={cn('rounded-2xl border-l-4 p-6 shadow-sm', bg, borderColor)}
+            >
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                    {label}
+                  </p>
+                  <p className={cn('mt-2 text-3xl font-bold tabular-nums', valueColor)}>
+                    {formatAmount(summary?.[key] ?? 0)}
+                  </p>
+                </div>
+                <div
+                  className={cn('flex h-10 w-10 items-center justify-center rounded-xl', iconBg)}
+                >
+                  <Icon className={cn('h-5 w-5', iconColor)} />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ),
+        )}
       </div>
 
       <RecentTransactions />

@@ -67,10 +67,7 @@ export class TransactionsController {
   @ApiResponse({ status: 200, description: 'Список транзакций с метаданными и итогами.' })
   @ApiResponse({ status: 401, description: 'Не аутентифицирован.' })
   @Get()
-  findAll(
-    @Request() req: { user: { id: string } },
-    @Query() query: ListTransactionsQueryDto,
-  ) {
+  findAll(@Request() req: { user: { id: string } }, @Query() query: ListTransactionsQueryDto) {
     return this.queryBus.execute(
       new ListTransactionsQuery(
         req.user.id,

@@ -8,13 +8,13 @@
 
 ## Стек
 
-| Слой | Технологии |
-|---|---|
-| Монорепо | Nx 20 + pnpm workspaces |
-| Фронтенд | Next.js 16 (App Router), TypeScript, Tailwind CSS, shadcn/ui, React Query, react-hook-form + zod |
-| Бэкенд | NestJS 11, TypeScript, Passport JWT, CQRS (`@nestjs/cqrs`) |
-| База данных | PostgreSQL 16 (docker-compose) |
-| ORM | Prisma 6 |
+| Слой        | Технологии                                                                                       |
+| ----------- | ------------------------------------------------------------------------------------------------ |
+| Монорепо    | Nx 20 + pnpm workspaces                                                                          |
+| Фронтенд    | Next.js 16 (App Router), TypeScript, Tailwind CSS, shadcn/ui, React Query, react-hook-form + zod |
+| Бэкенд      | NestJS 11, TypeScript, Passport JWT, CQRS (`@nestjs/cqrs`)                                       |
+| База данных | PostgreSQL 16 (docker-compose)                                                                   |
+| ORM         | Prisma 6                                                                                         |
 
 ---
 
@@ -159,16 +159,16 @@ JWT передаётся в заголовке: `Authorization: Bearer <token>`
 
 ## Команды
 
-| Команда | Действие |
-|---|---|
-| `pnpm dev` | Запуск фронтенда и бэкенда параллельно |
-| `pnpm build` | Сборка всех приложений |
-| `pnpm lint` | Линтинг всех проектов |
-| `pnpm test` | Тесты всех проектов |
-| `pnpm format` | Форматирование через Prettier |
+| Команда            | Действие                                        |
+| ------------------ | ----------------------------------------------- |
+| `pnpm dev`         | Запуск фронтенда и бэкенда параллельно          |
+| `pnpm build`       | Сборка всех приложений                          |
+| `pnpm lint`        | Линтинг всех проектов                           |
+| `pnpm test`        | Тесты всех проектов                             |
+| `pnpm format`      | Форматирование через Prettier                   |
 | `pnpm db:generate` | Пересоздать Prisma Client после изменений схемы |
-| `pnpm db:migrate` | Создать и применить новую миграцию |
-| `pnpm db:studio` | Открыть Prisma Studio (GUI для БД) |
+| `pnpm db:migrate`  | Создать и применить новую миграцию              |
+| `pnpm db:studio`   | Открыть Prisma Studio (GUI для БД)              |
 
 Запуск отдельного приложения:
 

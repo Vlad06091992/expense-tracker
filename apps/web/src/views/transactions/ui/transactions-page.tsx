@@ -28,14 +28,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { Skeleton } from '@/shared/ui/skeleton';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/shared/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table';
 
 export function TransactionsPage() {
   const [page, setPage] = useState(1);
@@ -43,7 +36,10 @@ export function TransactionsPage() {
   const [editing, setEditing] = useState<TransactionDto | undefined>(undefined);
   const [deleteTarget, setDeleteTarget] = useState<TransactionDto | undefined>(undefined);
 
-  const { data, isLoading, isError, isPlaceholderData } = useTransactions({ page, limit: PAGE_SIZE });
+  const { data, isLoading, isError, isPlaceholderData } = useTransactions({
+    page,
+    limit: PAGE_SIZE,
+  });
   const { data: categories } = useCategories();
   const deleteMutation = useDeleteTransaction();
 
@@ -93,10 +89,18 @@ export function TransactionsPage() {
         <Table>
           <TableHeader>
             <TableRow className="border-slate-100">
-              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">Описание</TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">Категория</TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">Дата</TableHead>
-              <TableHead className="text-right text-xs font-medium uppercase tracking-wide text-slate-400">Сумма</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                Описание
+              </TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                Категория
+              </TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                Дата
+              </TableHead>
+              <TableHead className="text-right text-xs font-medium uppercase tracking-wide text-slate-400">
+                Сумма
+              </TableHead>
               <TableHead className="w-12" />
             </TableRow>
           </TableHeader>
@@ -123,7 +127,10 @@ export function TransactionsPage() {
               </TableRow>
             ) : (
               data.items.map((transaction) => (
-                <TableRow key={transaction.id} className="border-slate-100 transition-colors hover:bg-slate-50">
+                <TableRow
+                  key={transaction.id}
+                  className="border-slate-100 transition-colors hover:bg-slate-50"
+                >
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <div
@@ -146,7 +153,9 @@ export function TransactionsPage() {
                       {categoryName(transaction.categoryId) ?? 'Без категории'}
                     </span>
                   </TableCell>
-                  <TableCell className="text-sm text-slate-500">{formatDate(transaction.date)}</TableCell>
+                  <TableCell className="text-sm text-slate-500">
+                    {formatDate(transaction.date)}
+                  </TableCell>
                   <TableCell
                     className={cn(
                       'text-right font-semibold tabular-nums',
@@ -159,7 +168,11 @@ export function TransactionsPage() {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-600">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-slate-400 hover:text-slate-600"
+                        >
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -209,12 +222,16 @@ export function TransactionsPage() {
 
       <TransactionFormDialog open={formOpen} onOpenChange={setFormOpen} transaction={editing} />
 
-      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(undefined)}>
+      <AlertDialog
+        open={!!deleteTarget}
+        onOpenChange={(open) => !open && setDeleteTarget(undefined)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Удалить транзакцию?</AlertDialogTitle>
             <AlertDialogDescription>
-              «{deleteTarget?.description || 'Без описания'}» будет удалена без возможности восстановления.
+              «{deleteTarget?.description || 'Без описания'}» будет удалена без возможности
+              восстановления.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

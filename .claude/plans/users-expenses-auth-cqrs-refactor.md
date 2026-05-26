@@ -5,6 +5,7 @@
 Сейчас `users` модуль уже частично в CQRS: есть `CreateUserCommand`, `FindUserByEmail/IdQuery` и их хендлеры, которые тонкими прокси вызывают `UsersService` (тот в свою очередь дергает Prisma). `auth` и `expenses` пока классические NestJS-сервисы с прямой бизнес-логикой и Prisma-доступом внутри.
 
 Цель — выровнять все три модуля по одному паттерну:
+
 - **Repository** = слой данных (только Prisma I/O, никакой бизнес-логики).
 - **Command/Query handlers** = вся бизнес-логика (валидации, хеширование, проверка прав, маппинг).
 - **Controllers** = напрямую инжектят `CommandBus`/`QueryBus`, без сервис-фасадов.
@@ -36,6 +37,7 @@
 ## ✅ Этап 1. Users → Repository
 
 **Файлы:**
+
 - ✅ Создан `users.repository.ts`, класс `UsersRepository`.
 - ✅ Обновлены `create-user.handler.ts`, `find-user-by-email.handler.ts`, `find-user-by-id.handler.ts` — инжектируют `UsersRepository`.
 - ✅ `users.controller.ts` — инжектирует `QueryBus`, `me()` выполняет `FindUserByIdQuery`.
@@ -49,6 +51,7 @@
 ## ✅ Этап 2. Auth → CQRS
 
 **Новые commands** (`apps/api/src/auth/commands/`):
+
 - ✅ `register-user.command.ts` + `register-user.handler.ts` — проверка дубля email, bcrypt, CreateUserCommand, buildAuthResponse.
 - ✅ `login-user.command.ts` + `login-user.handler.ts` — поиск по email, bcrypt.compare, buildAuthResponse.
 
@@ -59,6 +62,7 @@
 **JwtStrategy** — уже использует `QueryBus`, оставляем как есть.
 
 **✅ Модуль** `auth.module.ts` — удалён `AuthService`, добавлены `RegisterUserHandler`, `LoginUserHandler`.
+
 - ⏳ `auth.service.ts` — файл ещё не удалён.
 
 Проверка: `POST /api/auth/register` и `POST /api/auth/login` возвращают токен; повторная регистрация дает 409; неверный пароль — 401.
@@ -68,6 +72,7 @@
 ## ✅ Этап 3. Expenses → Repository + CQRS
 
 **`expenses.repository.ts`** — обертка над `PrismaService` (только I/O):
+
 - ✅ `findAllByUser(userId)`
 - ✅ `findOneByUser(userId, id)`
 - ✅ `create(userId, data)`
@@ -75,10 +80,12 @@
 - ✅ `removeByUser(userId, id)`
 
 **Queries** (`expenses/queries/`):
+
 - ✅ `list-expenses.query.ts` + `list-expenses.handler.ts`
 - ✅ `get-expense.query.ts` + `get-expense.handler.ts` (бросает `NotFoundException`)
 
 **Commands** (`expenses/commands/`):
+
 - ✅ `create-expense.{command,handler}.ts` — дефолты currency/spentAt
 - ✅ `update-expense.{command,handler}.ts` — `NotFoundException` при count === 0
 - ✅ `delete-expense.{command,handler}.ts` — `NotFoundException` при count === 0
@@ -96,6 +103,7 @@
 ## Критические файлы
 
 **Изменяются:**
+
 - ✅ `apps/api/src/users/users.service.ts` → `users.repository.ts`
 - ✅ `apps/api/src/users/users.module.ts`
 - ✅ `apps/api/src/users/users.controller.ts`
@@ -108,11 +116,13 @@
 - ✅ `apps/api/src/expenses/expenses.module.ts`
 
 **Удалены:**
+
 - ✅ `apps/api/src/auth/auth.service.ts`
 - ✅ `apps/api/src/users/users.service.ts`
 - ✅ `apps/api/src/expenses/expenses.service.ts`
 
 **Созданы:**
+
 - ✅ `apps/api/src/auth/commands/register-user.{command,handler}.ts`
 - ✅ `apps/api/src/auth/commands/login-user.{command,handler}.ts`
 - ✅ `apps/api/src/auth/utils/build-auth-response.ts`

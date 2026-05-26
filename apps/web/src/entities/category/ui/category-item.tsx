@@ -13,9 +13,7 @@ export function CategoryItem({ category, actions }: CategoryItemProps) {
         <span
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-base"
           style={
-            category.color
-              ? { backgroundColor: category.color }
-              : { backgroundColor: '#F1F5F9' }
+            category.color ? { backgroundColor: category.color } : { backgroundColor: '#F1F5F9' }
           }
         >
           {category.icon || '•'}

@@ -16,14 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/shared/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 
 import { categoryFormSchema, type CategoryFormValues } from '../model/schema';
@@ -44,11 +37,7 @@ function defaultValues(category?: CategoryDto): CategoryFormValues {
   };
 }
 
-export function CategoryFormDialog({
-  open,
-  onOpenChange,
-  category,
-}: CategoryFormDialogProps) {
+export function CategoryFormDialog({ open, onOpenChange, category }: CategoryFormDialogProps) {
   const isEdit = Boolean(category);
   const createMutation = useCreateCategory();
   const updateMutation = useUpdateCategory();
@@ -91,12 +80,8 @@ export function CategoryFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {isEdit ? 'Редактировать категорию' : 'Новая категория'}
-          </DialogTitle>
-          <DialogDescription>
-            Укажите название, цвет и иконку категории.
-          </DialogDescription>
+          <DialogTitle>{isEdit ? 'Редактировать категорию' : 'Новая категория'}</DialogTitle>
+          <DialogDescription>Укажите название, цвет и иконку категории.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

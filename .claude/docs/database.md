@@ -10,14 +10,14 @@
 
 ### `User` → таблица `users`
 
-| Колонка | Тип Prisma | Тип БД | Назначение |
-|---------|-----------|--------|-----------|
-| `id` | `String @id` | `text` | CUID, например `clx7abc123` |
-| `email` | `String @unique` | `text` | Идентификатор для входа |
-| `passwordHash` | `String` | `text` | bcrypt-хэш; никогда не возвращается в API-ответах |
-| `name` | `String?` | `text` | Отображаемое имя, может быть `null` |
-| `createdAt` | `DateTime @default(now())` | `timestamptz` | Устанавливается при создании записи |
-| `updatedAt` | `DateTime @updatedAt` | `timestamptz` | Автоматически обновляется Prisma |
+| Колонка        | Тип Prisma                 | Тип БД        | Назначение                                        |
+| -------------- | -------------------------- | ------------- | ------------------------------------------------- |
+| `id`           | `String @id`               | `text`        | CUID, например `clx7abc123`                       |
+| `email`        | `String @unique`           | `text`        | Идентификатор для входа                           |
+| `passwordHash` | `String`                   | `text`        | bcrypt-хэш; никогда не возвращается в API-ответах |
+| `name`         | `String?`                  | `text`        | Отображаемое имя, может быть `null`               |
+| `createdAt`    | `DateTime @default(now())` | `timestamptz` | Устанавливается при создании записи               |
+| `updatedAt`    | `DateTime @updatedAt`      | `timestamptz` | Автоматически обновляется Prisma                  |
 
 **Связи:** `categories[]`, `transactions[]`
 
@@ -25,17 +25,18 @@
 
 ### `Category` → таблица `categories`
 
-| Колонка | Тип Prisma | Тип БД | Назначение |
-|---------|-----------|--------|-----------|
-| `id` | `String @id` | `text` | CUID |
-| `name` | `String` | `text` | Отображаемое название |
-| `color` | `String?` | `text` | Hex-цвет, например `#FF5733` |
-| `icon` | `String?` | `text` | Эмодзи или идентификатор иконки |
-| `userId` | `String` | `text` | FK → `users.id` |
-| `createdAt` | `DateTime @default(now())` | `timestamptz` | |
-| `updatedAt` | `DateTime @updatedAt` | `timestamptz` | |
+| Колонка     | Тип Prisma                 | Тип БД        | Назначение                      |
+| ----------- | -------------------------- | ------------- | ------------------------------- |
+| `id`        | `String @id`               | `text`        | CUID                            |
+| `name`      | `String`                   | `text`        | Отображаемое название           |
+| `color`     | `String?`                  | `text`        | Hex-цвет, например `#FF5733`    |
+| `icon`      | `String?`                  | `text`        | Эмодзи или идентификатор иконки |
+| `userId`    | `String`                   | `text`        | FK → `users.id`                 |
+| `createdAt` | `DateTime @default(now())` | `timestamptz` |                                 |
+| `updatedAt` | `DateTime @updatedAt`      | `timestamptz` |                                 |
 
 **Ограничения и индексы:**
+
 - `@@unique([userId, name])` — названия категорий уникальны в рамках одного пользователя
 - `@@index([userId])` — быстрый поиск категорий по владельцу
 
@@ -47,23 +48,25 @@
 
 ### `Transaction` → таблица `transactions`
 
-| Колонка | Тип Prisma | Тип БД | Назначение |
-|---------|-----------|--------|-----------|
-| `id` | `String @id` | `text` | CUID |
-| `amount` | `Decimal @db.Decimal(12, 2)` | `numeric(12,2)` | До 10 знаков перед запятой; в JSON сериализуется как **строка** |
-| `type` | `TransactionType` | `enum` | `INCOME` или `EXPENSE` |
-| `description` | `String?` | `text` | Необязательная заметка; максимум 500 символов — ограничение на уровне DTO |
-| `date` | `DateTime` | `timestamptz` | Дата транзакции, указанная пользователем (не равна `createdAt`) |
-| `userId` | `String` | `text` | FK → `users.id` |
-| `categoryId` | `String?` | `text` | FK → `categories.id`, может быть `null` |
-| `createdAt` | `DateTime @default(now())` | `timestamptz` | Время создания записи |
-| `updatedAt` | `DateTime @updatedAt` | `timestamptz` | |
+| Колонка       | Тип Prisma                   | Тип БД          | Назначение                                                                |
+| ------------- | ---------------------------- | --------------- | ------------------------------------------------------------------------- |
+| `id`          | `String @id`                 | `text`          | CUID                                                                      |
+| `amount`      | `Decimal @db.Decimal(12, 2)` | `numeric(12,2)` | До 10 знаков перед запятой; в JSON сериализуется как **строка**           |
+| `type`        | `TransactionType`            | `enum`          | `INCOME` или `EXPENSE`                                                    |
+| `description` | `String?`                    | `text`          | Необязательная заметка; максимум 500 символов — ограничение на уровне DTO |
+| `date`        | `DateTime`                   | `timestamptz`   | Дата транзакции, указанная пользователем (не равна `createdAt`)           |
+| `userId`      | `String`                     | `text`          | FK → `users.id`                                                           |
+| `categoryId`  | `String?`                    | `text`          | FK → `categories.id`, может быть `null`                                   |
+| `createdAt`   | `DateTime @default(now())`   | `timestamptz`   | Время создания записи                                                     |
+| `updatedAt`   | `DateTime @updatedAt`        | `timestamptz`   |                                                                           |
 
 **Ограничения и индексы:**
+
 - `@@index([userId, date])` — основной паттерн доступа: список транзакций пользователя, отфильтрованный и отсортированный по дате
 - `@@index([categoryId])` — для агрегаций по категории
 
 **При удалении:**
+
 - `userId` → `onDelete: Cascade` — удаление пользователя удаляет все его транзакции
 - `categoryId` → `onDelete: SetNull` — удаление категории сохраняет транзакцию, устанавливает `categoryId = null`
 

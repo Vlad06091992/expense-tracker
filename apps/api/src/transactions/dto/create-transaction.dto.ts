@@ -14,13 +14,20 @@ import {
 /** DTO для создания транзакции. */
 export class CreateTransactionDto {
   /** Сумма транзакции (положительное число, не более двух знаков после запятой). */
-  @ApiProperty({ example: 1500.5, description: 'Сумма транзакции (> 0, до 2 знаков после запятой)' })
+  @ApiProperty({
+    example: 1500.5,
+    description: 'Сумма транзакции (> 0, до 2 знаков после запятой)',
+  })
   @IsNumber({ maxDecimalPlaces: 2 })
   @IsPositive()
   amount!: number;
 
   /** Тип транзакции: `INCOME` (доход) или `EXPENSE` (расход). */
-  @ApiProperty({ enum: TransactionType, example: TransactionType.EXPENSE, description: 'Тип: INCOME или EXPENSE' })
+  @ApiProperty({
+    enum: TransactionType,
+    example: TransactionType.EXPENSE,
+    description: 'Тип: INCOME или EXPENSE',
+  })
   @IsEnum(TransactionType)
   type!: TransactionType;
 

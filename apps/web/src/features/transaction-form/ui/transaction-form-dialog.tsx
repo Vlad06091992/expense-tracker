@@ -17,22 +17,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/shared/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 
 import { transactionFormSchema, type TransactionFormValues } from '../model/schema';
 
@@ -91,9 +78,7 @@ export function TransactionFormDialog({
       date: new Date(values.date).toISOString(),
       description: values.description?.trim() ? values.description.trim() : undefined,
       categoryId:
-        values.categoryId && values.categoryId !== NO_CATEGORY
-          ? values.categoryId
-          : undefined,
+        values.categoryId && values.categoryId !== NO_CATEGORY ? values.categoryId : undefined,
     };
 
     try {
@@ -116,12 +101,8 @@ export function TransactionFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {isEdit ? 'Редактировать транзакцию' : 'Новая транзакция'}
-          </DialogTitle>
-          <DialogDescription>
-            Заполните данные операции и сохраните изменения.
-          </DialogDescription>
+          <DialogTitle>{isEdit ? 'Редактировать транзакцию' : 'Новая транзакция'}</DialogTitle>
+          <DialogDescription>Заполните данные операции и сохраните изменения.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

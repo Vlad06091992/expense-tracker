@@ -22,6 +22,7 @@ argument-hint: [path]
 - `path` — путь к файлу или директории относительно корня проекта (обязателен).
 
 Примеры вызова:
+
 ```
 /tests apps/api/src/categories/categories.repository.ts
 /tests apps/api/src/auth/commands/register-user.handler.ts
@@ -29,6 +30,7 @@ argument-hint: [path]
 ```
 
 Если аргумент не передан — сообщить об ошибке:
+
 ```
 Ошибка: укажи путь к файлу или директории.
 Использование: /tests <path>
@@ -54,9 +56,11 @@ argument-hint: [path]
 5. **Написать тесты** в файл `<original-name>.spec.ts` рядом с исходным файлом. Следовать правилам ниже.
 
 6. **Запустить тесты**, чтобы убедиться что они проходят:
+
    ```bash
    pnpm --filter api test -- --testPathPattern=<имя файла без расширения>
    ```
+
    Если тесты падают — исправить, затем запустить снова. Повторять до прохождения.
 
 7. **Сообщить результат:** сколько тестов написано, путь к `.spec.ts`-файлу, краткая сводка по покрытым сценариям.
@@ -76,6 +80,7 @@ argument-hint: [path]
 Использовать `jest.fn()` / `jest.spyOn()`. Никогда не поднимать реальную БД или HTTP-сервер в unit-тестах.
 
 **PrismaService** — мокать через объект с нужными методами:
+
 ```typescript
 const prismaMock = {
   category: {
@@ -89,6 +94,7 @@ const prismaMock = {
 ```
 
 **CommandBus / QueryBus** — мокать через `{ execute: jest.fn() }`:
+
 ```typescript
 const commandBusMock = { execute: jest.fn() } as unknown as CommandBus;
 const queryBusMock = { execute: jest.fn() } as unknown as QueryBus;
@@ -116,23 +122,27 @@ beforeEach(() => {
 ### Паттерн по типу артефакта
 
 **Repository:**
+
 - Мокать `PrismaService`.
 - Тестировать каждый метод: корректный вызов Prisma, возврат результата, броски исключений (`NotFoundException` при отсутствии записи).
 - Проверять аргументы Prisma-вызовов через `expect(prisma.X.method).toHaveBeenCalledWith(...)`.
 
 **CommandHandler / QueryHandler:**
+
 - Мокать репозиторий / сервисы / bus-ы, от которых зависит хендлер.
 - Тестировать метод `execute(command)`.
 - Проверять что хендлер делегирует правильной зависимости с правильными аргументами.
 - Тестировать условные ветки (например `ConflictException` при дублировании email).
 
 **Controller:**
+
 - Создавать через `Test.createTestingModule`, переопределять `CommandBus` и `QueryBus` моками.
 - Применять `overrideGuard(JwtAuthGuard).useValue({ canActivate: () => true })`.
 - Тестировать HTTP-поведение через `supertest` или напрямую вызывая методы контроллера с фейковым `req`.
 - Проверять что контроллер передаёт правильную команду/запрос в bus.
 
 **Util / Helper (чистые функции):**
+
 - Тестировать с реальными значениями, без моков.
 - Покрывать все ветки и граничные случаи.
 

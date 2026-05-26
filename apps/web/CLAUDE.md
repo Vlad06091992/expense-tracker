@@ -45,6 +45,7 @@ src/
 **Middleware** (`src/middleware.ts` → `src/middleware/proxy.ts`) защищает все маршруты кроме `PUBLIC_PATHS = ['/sign-in', '/sign-up']`: проверяет наличие `access_token` в cookies, неавторизованных редиректит на `/sign-in`, авторизованных с `/sign-in` или `/sign-up` редиректит на `/`.
 
 **Токен** хранится в cookie (`src/shared/lib/token.ts`):
+
 - `setToken()` — `max-age=604800` (7 дней), `SameSite=Lax`, `Secure` на HTTPS.
 - `getToken()` — парсит document.cookie (только клиентский код).
 - `clearToken()` — обнуляет cookie.
@@ -52,6 +53,7 @@ src/
 ## HTTP-клиент
 
 `src/shared/api/http-client.ts` — обёртка `apiFetch()` над fetch:
+
 - Автоматически добавляет `Authorization: Bearer {token}` из cookie.
 - При получении 401 чистит токен и редиректит на `/sign-in`.
 - Возвращает `undefined` для ответов 204 No Content.

@@ -3,12 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { UpdateCategoryInput } from '@repo/shared-types';
 
-import {
-  categoryKeys,
-  createCategory,
-  deleteCategory,
-  updateCategory,
-} from '@/entities/category';
+import { categoryKeys, createCategory, deleteCategory, updateCategory } from '@/entities/category';
 
 export function useCreateCategory() {
   const queryClient = useQueryClient();

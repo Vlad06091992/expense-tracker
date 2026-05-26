@@ -1,8 +1,4 @@
-import type {
-  CategoryDto,
-  CreateCategoryInput,
-  UpdateCategoryInput,
-} from '@repo/shared-types';
+import type { CategoryDto, CreateCategoryInput, UpdateCategoryInput } from '@repo/shared-types';
 
 import { apiFetch } from '@/shared/api/http-client';
 
@@ -17,10 +13,7 @@ export function createCategory(input: CreateCategoryInput): Promise<CategoryDto>
   });
 }
 
-export function updateCategory(
-  id: string,
-  input: UpdateCategoryInput,
-): Promise<CategoryDto> {
+export function updateCategory(id: string, input: UpdateCategoryInput): Promise<CategoryDto> {
   return apiFetch<CategoryDto>(`/categories/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(input),

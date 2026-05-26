@@ -81,7 +81,14 @@ describe('CategoriesRepository', () => {
 
     it('should work with optional fields omitted', async () => {
       const dto: CreateCategoryDto = { name: 'Health' };
-      const created = { id: 'new-id', name: 'Health', userId: 'u1', color: null, icon: null, createdAt: new Date() };
+      const created = {
+        id: 'new-id',
+        name: 'Health',
+        userId: 'u1',
+        color: null,
+        icon: null,
+        createdAt: new Date(),
+      };
       prisma.category.create.mockResolvedValue(created);
 
       const result = await repo.create('u1', dto);
@@ -114,7 +121,9 @@ describe('CategoriesRepository', () => {
     it('should throw NotFoundException when category not found and not call update', async () => {
       prisma.category.findFirst.mockResolvedValue(null);
 
-      await expect(repo.updateByUser('u1', 'missing', { name: 'X' })).rejects.toThrow(NotFoundException);
+      await expect(repo.updateByUser('u1', 'missing', { name: 'X' })).rejects.toThrow(
+        NotFoundException,
+      );
       expect(prisma.category.update).not.toHaveBeenCalled();
     });
   });

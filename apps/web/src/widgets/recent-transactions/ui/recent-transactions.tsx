@@ -10,7 +10,10 @@ import { Skeleton } from '@/shared/ui/skeleton';
 
 export function RecentTransactions() {
   const [page, setPage] = useState(1);
-  const { data, isLoading, isError, isPlaceholderData } = useTransactions({ page, limit: PAGE_SIZE });
+  const { data, isLoading, isError, isPlaceholderData } = useTransactions({
+    page,
+    limit: PAGE_SIZE,
+  });
   const { data: categories } = useCategories();
 
   const categoryName = (id: string | null) =>

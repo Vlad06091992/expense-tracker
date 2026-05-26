@@ -39,7 +39,11 @@ export class CategoriesController {
   }
 
   @Patch(':id')
-  update(@Request() req: { user: { id: string } }, @Param('id') id: string, @Body() dto: UpdateCategoryDto) {
+  update(
+    @Request() req: { user: { id: string } },
+    @Param('id') id: string,
+    @Body() dto: UpdateCategoryDto,
+  ) {
     return this.commandBus.execute(new UpdateCategoryCommand(req.user.id, id, dto));
   }
 

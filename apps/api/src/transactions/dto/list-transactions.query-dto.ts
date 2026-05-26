@@ -30,7 +30,13 @@ export class ListTransactionsQueryDto {
   page?: number;
 
   /** Количество записей на странице (1–100). По умолчанию `10`. */
-  @ApiPropertyOptional({ example: 10, minimum: 1, maximum: 100, default: 10, description: 'Записей на странице' })
+  @ApiPropertyOptional({
+    example: 10,
+    minimum: 1,
+    maximum: 100,
+    default: 10,
+    description: 'Записей на странице',
+  })
   @IsOptional()
   @Type(() => Number)
   @IsInt()

@@ -9,10 +9,7 @@
       "!{projectRoot}/test/**/*",
       "!{projectRoot}/**/*.md"
     ],
-    "sharedGlobals": [
-      "{workspaceRoot}/tsconfig.base.json",
-      "{workspaceRoot}/pnpm-workspace.yaml"
-    ]
+    "sharedGlobals": ["{workspaceRoot}/tsconfig.base.json", "{workspaceRoot}/pnpm-workspace.yaml"]
   },
   "targetDefaults": {
     "build": {

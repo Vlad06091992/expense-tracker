@@ -42,9 +42,11 @@ model Transaction {
 - `Category`: `transactions Transaction[]`
 
 Применить миграцию:
+
 ```bash
 npx prisma migrate dev --name add-transactions
 ```
+
 (из `packages/database/` или через `pnpm db:migrate` из корня). Затем `pnpm db:generate`.
 
 ## 2. Структура модуля ✅
@@ -72,6 +74,7 @@ transactions/
 ## 3. DTO ✅
 
 **CreateTransactionDto** (`class-validator`):
+
 - `amount: number` — `@IsNumber({ maxDecimalPlaces: 2 })`, `@IsPositive()`
 - `type: TransactionType` — `@IsEnum(TransactionType)` (импорт из `@repo/database`/Prisma client)
 - `description?: string` — `@IsOptional() @IsString() @MaxLength(500)`
@@ -81,6 +84,7 @@ transactions/
 **UpdateTransactionDto**: `extends PartialType(CreateTransactionDto)` (через `@nestjs/mapped-types`).
 
 **ListTransactionsQueryDto**:
+
 - `month?: number` — `@IsOptional() @Type(() => Number) @IsInt() @Min(1) @Max(12)`
 - `year?: number` — `@IsOptional() @Type(() => Number) @IsInt() @Min(1970)`
 
@@ -122,6 +126,7 @@ pnpm --filter api start:dev    # ручная проверка
 ```
 
 Сценарий smoke-теста (после логина и получения JWT):
+
 1. `POST /categories` — создать категорию.
 2. `POST /transactions` с `type=EXPENSE`, `amount=100`, `date=2026-05-10`, `categoryId=...`.
 3. `POST /transactions` с `type=INCOME`, `amount=500`, `date=2026-05-15`.

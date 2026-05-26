@@ -88,12 +88,12 @@ Controller → CommandBus / QueryBus → Handler → Repository → Prisma
 
 ### Глобальная конфигурация bootstrap (`main.ts`)
 
-| Настройка | Значение |
-|-----------|----------|
-| Глобальный префикс | env `API_PREFIX` (по умолчанию `api`) |
-| CORS | env `CORS_ORIGIN` (по умолчанию `http://localhost:3000`), `credentials: true` |
-| ValidationPipe | `whitelist: true`, `transform: true`, `forbidNonWhitelisted: true` |
-| Swagger | `/api/docs` |
+| Настройка          | Значение                                                                      |
+| ------------------ | ----------------------------------------------------------------------------- |
+| Глобальный префикс | env `API_PREFIX` (по умолчанию `api`)                                         |
+| CORS               | env `CORS_ORIGIN` (по умолчанию `http://localhost:3000`), `credentials: true` |
+| ValidationPipe     | `whitelist: true`, `transform: true`, `forbidNonWhitelisted: true`            |
+| Swagger            | `/api/docs`                                                                   |
 
 ---
 
@@ -131,10 +131,10 @@ shared     Конфиг, утилиты, http-клиент, shadcn/ui компо
 
 ### Route Groups
 
-| Группа | Шаблон пути | Авторизация |
-|--------|-------------|-------------|
-| `(auth)` | `/sign-in`, `/sign-up` | публичные |
-| `(app)` | `/`, `/transactions`, `/categories` | защищённые |
+| Группа   | Шаблон пути                         | Авторизация |
+| -------- | ----------------------------------- | ----------- |
+| `(auth)` | `/sign-in`, `/sign-up`              | публичные   |
+| `(app)`  | `/`, `/transactions`, `/categories` | защищённые  |
 
 `middleware.ts` защищает роуты: проверяет cookie `access_token` и выполняет редиректы.
 
@@ -148,6 +148,7 @@ shared     Конфиг, утилиты, http-клиент, shadcn/ui компо
 ### HTTP-клиент (`shared/api/http-client.ts`)
 
 Обёртка `apiFetch<T>(path, options)`:
+
 - Читает токен из `document.cookie` через `getToken()`
 - Автоматически добавляет заголовок `Authorization: Bearer`
 - Ответы `204` возвращают `undefined`
