@@ -3,6 +3,16 @@
     "dbhub": {
       "type": "http",
       "url": "http://localhost:8080/mcp"
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest",
+        "--executable-path",
+        "/home/vlad/.cache/ms-playwright/chromium-1224/chrome-linux64/chrome"
+      ],
+      "env": {}
     }
   }
 }
