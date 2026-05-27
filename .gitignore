@@ -40,3 +40,6 @@ packages/database/prisma/*.db-journal
 
 # Testing
 coverage/
+
+.playwright-mcp/
+screenshots/
